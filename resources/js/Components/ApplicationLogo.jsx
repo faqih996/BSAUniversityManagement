@@ -14,8 +14,8 @@ export default function ApplicationLogo({ bgLogo, colorLogo, colorText }) {
                 <IconSchool className={cn('size-8', colorLogo)} />
             </div>
             <div className={cn('grid flex-1 text-left leading-tight', colorText)}>
-                <span className="truncate font-bold">SIAKU</span>
-                <span className="truncate text-xs tracking-tighter">Teman Setia Mahasiswa</span>
+                <span className="font-bold truncate">My University</span>
+                <span className="text-xs tracking-tighter truncate">Study Tracer</span>
             </div>
         </Link>
     );
