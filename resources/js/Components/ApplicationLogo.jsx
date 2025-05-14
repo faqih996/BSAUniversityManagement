@@ -15,7 +15,7 @@ export default function ApplicationLogo({ bgLogo, colorLogo, colorText }) {
             </div>
             <div className={cn('grid flex-1 text-left leading-tight', colorText)}>
                 <span className="font-bold truncate">My University</span>
-                <span className="text-xs tracking-tighter truncate">Study Tracer</span>
+                <span className="text-xs tracking-tighter truncate">Your Friendly Study Tracer</span>
             </div>
         </Link>
     );
