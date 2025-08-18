@@ -1,5 +1,4 @@
 import NavLink from '@/Components/NavLink';
-import { Avatar, AvatarFallback } from '@/Components/ui/avatar';
 import { Link } from '@inertiajs/react';
 import {
     IconBook,
@@ -18,25 +17,24 @@ import {
     IconUsersGroup,
 } from '@tabler/icons-react';
 
-export default function Sidebar({ url }) {
+export default function SidebarResponsive({ url }) {
     return (
-        <nav className="flex flex-1 flex-col">
-            <ul role="list" className="flex flex-1 flex-col">
-                <li className="-mx-6">
+        <nav className="flex flex-col flex-1 mt-4">
+            <ul role="list" className="flex flex-col flex-1">
+                {/* <li className="-mx-6">
                     <Link
-                        href="#"
-                        className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-blue-800"
+                        href='#'
+                        className="flex items-center px-6 py-3 text-sm font-semibold leading-6 text-white gap-x-4 hover:bg-blue-800"
                     >
                         <Avatar>
                             <AvatarFallback>X</AvatarFallback>
                         </Avatar>
-
                         <div className="flex flex-col text-left">
-                            <span className="truncate font-bold">Monkey D Luffy</span>
+                            <span className="font-bold truncate">Monkey D Luffy</span>
                             <span className="truncate">Admin</span>
                         </div>
                     </Link>
-                </li>
+                </li> */}
 
                 <NavLink url="#" active={url.startsWith('/admin/dashboard')} title="Dashboard" icon={IconLayout2} />
 
