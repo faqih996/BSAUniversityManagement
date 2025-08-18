@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('start_date');
             $table->string('end_date');
             $table->string('semester')->default(AcademicYearSemester::ODD->value);
-            $table->boolean('is_active0')->default(false);
+            $table->boolean('is_active')->default(false);
             $table->timestamps();
         });
     }
