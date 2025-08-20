@@ -1,7 +1,6 @@
-import StudentLayout from "@/Layouts/StudentLayout"
+import StudentLayout from '@/Layouts/StudentLayout';
 
 export default function Dashboard(props) {
-
     return (
         <div className="flex flex-col gap-8">
             <div className="flex flex-col items-center justify-between gap-y-4 lg:flex-row">
@@ -13,7 +12,7 @@ export default function Dashboard(props) {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 Dashboard.layout = (page) => <StudentLayout children={page} title={page.props.page_settings.title} />;
