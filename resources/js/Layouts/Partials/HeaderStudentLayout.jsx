@@ -1,6 +1,6 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import NavigationMenu from '@/Components/NavigationMenu';
-import { Avatar, AvatarFallback } from '@/Components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/Components/ui/avatar';
 import { Button } from '@/Components/ui/button';
 import {
     DropdownMenu,
@@ -15,7 +15,7 @@ import { Link } from '@inertiajs/react';
 import { DropdownMenuLabel } from '@radix-ui/react-dropdown-menu';
 import { IconChevronCompactDown, IconLayoutSidebar, IconLogout2, IconX } from '@tabler/icons-react';
 
-export default function HeaderStudentLayout({ url }) {
+export default function HeaderStudentLayout({ auth, url }) {
     return (
         <>
             <Disclosure
@@ -92,14 +92,15 @@ export default function HeaderStudentLayout({ url }) {
                                                     className="data-[state=open]:bg-orange-500 data-[state=open]:text-white"
                                                 >
                                                     <Avatar className="rounded-lg size-8">
+                                                        <AvatarImage src={auth.avatar} />
                                                         <AvatarFallback className="text-blue-600 rounded-lg">
-                                                            X
+                                                            {auth.name.substring(0, 1).toUpperCase()}
                                                         </AvatarFallback>
                                                     </Avatar>
 
                                                     <div className="grid flex-1 text-sm leading-tight text-left">
-                                                        <span className="font-semibold truncate">Sanji</span>
-                                                        <span className="text-xs truncate">sanji@siakubwa.test</span>
+                                                        <span className="font-semibold truncate">{auth.name}</span>
+                                                        <span className="text-xs truncate">{ auth.student.student_number } ({auth.student.classroom.name})</span>
                                                     </div>
 
                                                     <IconChevronCompactDown className="ml-auto size-4" />
@@ -115,15 +116,16 @@ export default function HeaderStudentLayout({ url }) {
                                                 <DropdownMenuLabel className="p-0 font-normal">
                                                     <div className="flex items-center gap-2 px-1 py-1 text-sm text-left 5">
                                                         <Avatar className="rounded-lg size-8">
+                                                            <AvatarImage src={auth.avatar} />
                                                             <AvatarFallback className="text-blue-600 rounded-lg">
-                                                                X
+                                                                {auth.name.substring(0, 1).toUpperCase()}
                                                             </AvatarFallback>
                                                         </Avatar>
 
                                                         <div className="grid flex-1 text-sm leading-tight text-left">
-                                                            <span className="font-semibold truncate">Sanji</span>
+                                                            <span className="font-semibold truncate">{auth.name}</span>
                                                             <span className="text-xs truncate">
-                                                                sanji@siakubwa.test
+                                                                { auth.student.student_number } ({auth.student.classroom.name})
                                                             </span>
                                                         </div>
                                                     </div>
@@ -132,11 +134,7 @@ export default function HeaderStudentLayout({ url }) {
                                                 <DropdownMenuSeparator />
 
                                                 <DropdownMenuItem asChild>
-                                                    <Link
-                                                        href={route('logout')}
-                                                        method="post"
-                                                        as='button'
-                                                    >
+                                                    <Link href={route('logout')} method="post" as="button">
                                                         <IconLogout2 />
                                                         Logout
                                                     </Link>
@@ -222,13 +220,16 @@ export default function HeaderStudentLayout({ url }) {
                                 <div className="flex items-center px-5">
                                     <div className="flex-shrink-0">
                                         <Avatar>
-                                            <AvatarFallback>X</AvatarFallback>
+                                            <AvatarImage src={auth.avatar} />
+                                            <AvatarFallback className="text-blue-600 rounded-lg">
+                                                {auth.name.substring(0, 1).toUpperCase()}
+                                            </AvatarFallback>
                                         </Avatar>
                                     </div>
 
                                     <div className="ml-3">
-                                        <div className="text-base font-medium text-white">Sanji</div>
-                                        <div className="text-base font-medium text-white">sanji@siakubwa.test</div>
+                                        <div className="text-base font-medium text-white">{ auth.name }</div>
+                                        <div className="text-base font-medium text-white">{ auth.student.student_number } ({auth.student.classroom.name})</div>
                                     </div>
                                 </div>
 

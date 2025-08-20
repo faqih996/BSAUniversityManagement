@@ -1,8 +1,8 @@
+import { Avatar, AvatarFallback, AvatarImage } from '@/Components/ui/avatar';
 import { Toaster } from '@/Components/ui/toaster';
 import { flashMessage } from '@/lib/utils';
 import { Dialog, Transition } from '@headlessui/react';
 import { Head, Link, usePage } from '@inertiajs/react';
-import { Avatar, AvatarFallback } from '@radix-ui/react-avatar';
 import { IconLayoutSidebar, IconX } from '@tabler/icons-react';
 import { Fragment, useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -14,6 +14,10 @@ export default function AppLayout({ title, children }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const { url } = usePage();
+
+    const auth = usePage().props.auth.user;
+
+    console.log(auth);
 
     // Get flash message from the page props
     const flash = flashMessage(usePage());
@@ -78,7 +82,7 @@ export default function AppLayout({ title, children }) {
                                     </Transition.Child>
                                     <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gradient-to-b from-blue-500 via-blue-600 to-blue-700 px-6 pb-2">
                                         {/* Sidebar Responsive */}
-                                        <SidebarResponsive url={url} />
+                                        <SidebarResponsive auth={auth} url={url} />
                                     </div>
                                 </Dialog.Panel>
                             </Transition.Child>
@@ -89,7 +93,7 @@ export default function AppLayout({ title, children }) {
                 <div className="hidden p-2.5 lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
                     <div className="flex grow flex-col gap-y-5 overflow-y-auto rounded-xl bg-gradient-to-b from-blue-500 via-blue-600 to-blue-700 px-4">
                         {/* Sidebar Desktop */}
-                        <Sidebar url={url} />
+                        <Sidebar auth={auth} url={url} />
                     </div>
                 </div>
 
@@ -107,7 +111,8 @@ export default function AppLayout({ title, children }) {
 
                     <Link href="#">
                         <Avatar>
-                            <AvatarFallback>X</AvatarFallback>
+                            <AvatarImage src={auth.Avatar} />
+                            <AvatarFallback> {auth.name.substring(0, 1).toUpperCase()}</AvatarFallback>
                         </Avatar>
                     </Link>
                 </div>

@@ -24,7 +24,7 @@ export default function Login({ status, canResetPassword }) {
     };
 
     return (
-        <div className="w-full lg:mih-h-screen lg:grid lg:grid-cols-2">
+        <div className="lg:mih-h-screen w-full lg:grid lg:grid-cols-2">
             {/*Left Side Form */}
             <div className="flex flex-col px-6 py-4">
                 <ApplicationLogo
@@ -34,8 +34,8 @@ export default function Login({ status, canResetPassword }) {
                 />
 
                 <div className="flex flex-col items-center justify-center py-12 lg:py-48">
-                    <div className="flex flex-col w-full gap-6 mx-auto lg:w-1/2">
-                        <div className="grid gap-2 tex-center">
+                    <div className="mx-auto flex w-full flex-col gap-6 lg:w-1/2">
+                        <div className="tex-center grid gap-2">
                             {status && (
                                 <Alert variant="success">
                                     <AlertDescription>{status}</AlertDescription>
@@ -86,7 +86,7 @@ export default function Login({ status, canResetPassword }) {
 
                                 {/* checkbox */}
                                 <div className="grid gap-2">
-                                    <div className="flex space-x-2 items-">
+                                    <div className="items- flex space-x-2">
                                         <Checkbox
                                             id="remember"
                                             name="remember"
@@ -116,7 +116,7 @@ export default function Login({ status, canResetPassword }) {
                 <img
                     src="/images/bg-login.webp"
                     alt="Login Background"
-                    className="object-cover w-full h-full max-h-screen"
+                    className="h-full max-h-screen w-full object-cover"
                 />
             </div>
         </div>

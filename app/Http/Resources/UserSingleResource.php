@@ -20,9 +20,9 @@ class UserSingleResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'avatar' => $this->avatar ? Storage::url($this->avatar) : null,
-            'roles' => $this->getRoleName(),
-            'role_name' => $this->getRoleName()->first(),
-            'student' => $this->when($this->hasRole('Student'),[
+            'roles' => $this->getRoleNames(),
+            'role_name' => $this->getRoleNames()->first(),
+            'student' => $this->when($this->hasRole('Student'), [
                 'id' => $this->student?->id,
                 'student_number' => $this->student?->student_number,
                 'batch' => $this->student?->batch,
@@ -46,7 +46,7 @@ class UserSingleResource extends JsonResource
                 ],
             ]),
 
-            'teacher' => $this->when($this->hasRole('Teacher'),[
+            'teacher' => $this->when($this->hasRole('Teacher'), [
                 'id' => $this->teacher?->id,
                 'teacher_number' => $this->teacher?->teacher_number,
                 'academic_title' => $this->teacher?->academic_title,
@@ -54,7 +54,7 @@ class UserSingleResource extends JsonResource
                 'department_id' => $this->teacher?->department_id,
             ]),
 
-            'operator' => $this->when($this->hasRole('Operator'),[
+            'operator' => $this->when($this->hasRole('Operator'), [
                 'id' => $this->operator?->id,
                 'employee_number' => $this->operator?->employee_number,
                 'faculty_id' => $this->operator?->faculty_id,
