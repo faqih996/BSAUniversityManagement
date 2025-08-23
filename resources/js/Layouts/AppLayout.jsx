@@ -17,8 +17,6 @@ export default function AppLayout({ title, children }) {
 
     const auth = usePage().props.auth.user;
 
-    console.log(auth);
-
     // Get flash message from the page props
     const flash = flashMessage(usePage());
 
@@ -60,7 +58,7 @@ export default function AppLayout({ title, children }) {
                                 leaveFrom="translate-x-0"
                                 leaveTo="-translate-x-full"
                             >
-                                <Dialog.Panel className="relative mr-16 flex w-full max-w-xs flex-1">
+                                <Dialog.Panel className="relative flex flex-1 w-full max-w-xs mr-16">
                                     <Transition.Child
                                         as={Fragment}
                                         enter="ease-in-out duration-300"
@@ -70,17 +68,17 @@ export default function AppLayout({ title, children }) {
                                         leaveFrom="opacity-100"
                                         leaveTo="opacity-0"
                                     >
-                                        <div className="absolute left-full top-0 flex w-16 justify-center pt-5">
+                                        <div className="absolute top-0 flex justify-center w-16 pt-5 left-full">
                                             <button
                                                 type="button"
                                                 className="-m-2.5 p-2.5"
                                                 onClick={() => setSidebarOpen(false)}
                                             >
-                                                <IconX className="size-6 text-white" />
+                                                <IconX className="text-white size-6" />
                                             </button>
                                         </div>
                                     </Transition.Child>
-                                    <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gradient-to-b from-blue-500 via-blue-600 to-blue-700 px-6 pb-2">
+                                    <div className="flex flex-col px-6 pb-2 overflow-y-auto grow gap-y-5 bg-gradient-to-b from-blue-500 via-blue-600 to-blue-700">
                                         {/* Sidebar Responsive */}
                                         <SidebarResponsive auth={auth} url={url} />
                                     </div>
@@ -91,14 +89,14 @@ export default function AppLayout({ title, children }) {
                 </Transition.Root>
 
                 <div className="hidden p-2.5 lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-                    <div className="flex grow flex-col gap-y-5 overflow-y-auto rounded-xl bg-gradient-to-b from-blue-500 via-blue-600 to-blue-700 px-4">
+                    <div className="flex flex-col px-4 overflow-y-auto grow gap-y-5 rounded-xl bg-gradient-to-b from-blue-500 via-blue-600 to-blue-700">
                         {/* Sidebar Desktop */}
                         <Sidebar auth={auth} url={url} />
                     </div>
                 </div>
 
                 {/* Header */}
-                <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-white p-4 shadow-sm sm:px-6 lg:hidden">
+                <div className="sticky top-0 z-40 flex items-center p-4 bg-white shadow-sm gap-x-6 sm:px-6 lg:hidden">
                     <button
                         type="button"
                         className="-m-2.5 p-2.5 text-gray-700 lg:hidden"

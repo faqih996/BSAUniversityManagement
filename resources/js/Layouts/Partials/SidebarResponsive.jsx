@@ -18,8 +18,8 @@ import {
 
 export default function SidebarResponsive({ auth, url }) {
     return (
-        <nav className="mt-4 flex flex-1 flex-col">
-            <ul role="list" className="flex flex-1 flex-col">
+        <nav className="flex flex-col flex-1 mt-4">
+            <ul role="list" className="flex flex-col flex-1">
                 {/* Admin Menu */}
                 {auth.roles.some((role) => ['Admin'].includes(role)) && (
                     <>
@@ -33,7 +33,7 @@ export default function SidebarResponsive({ auth, url }) {
                         <div className="px-3 py-2 text-xs font-medium text-white">Master</div>
 
                         <NavLink
-                            url="#"
+                            url={route('admin.faculties.index')}
                             active={url.startsWith('/admin/faculties')}
                             title="Fakultas"
                             icon={IconBuildingSkyscraper}

@@ -1,4 +1,6 @@
 import { clsx } from 'clsx';
+import { format, parseISO } from 'date-fns';
+import { id } from 'date-fns/locale';
 import { toast } from 'sonner';
 import { twMerge } from 'tailwind-merge';
 
@@ -31,7 +33,8 @@ export const deleteAction = (url, { closeModal, ...options } = {}) => {
 };
 
 export const formatDateIndo = (dateString) => {
-    return format(parseISO(dateString), 'eeee, dd, MMMM, YYYY', { locale: id });
+    return format(parseISO(dateString), 'eeee, dd MMMM yyyy', { locale: id });
+
 };
 
 export const formatToRupiah = (amount) => {

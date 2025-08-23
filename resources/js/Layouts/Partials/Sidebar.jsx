@@ -20,13 +20,13 @@ import {
 
 export default function Sidebar({ auth, url }) {
     return (
-        <nav className="flex flex-1 flex-col">
-            <ul role="list" className="flex flex-1 flex-col">
+        <nav className="flex flex-col flex-1">
+            <ul role="list" className="flex flex-col flex-1">
                 {/* Photo Profile */}
                 <li className="-mx-6">
                     <Link
                         href="#"
-                        className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-blue-800"
+                        className="flex items-center px-6 py-3 text-sm font-semibold leading-6 text-white gap-x-4 hover:bg-blue-800"
                     >
                         <Avatar>
                             <AvatarImage src={auth.Avatar} />
@@ -34,7 +34,7 @@ export default function Sidebar({ auth, url }) {
                         </Avatar>
 
                         <div className="flex flex-col text-left">
-                            <span className="truncate font-bold">{auth.name}</span>
+                            <span className="font-bold truncate">{auth.name}</span>
                             <span className="truncate">{auth.role_name}</span>
                         </div>
                     </Link>
@@ -53,7 +53,7 @@ export default function Sidebar({ auth, url }) {
                         <div className="px-3 py-2 text-xs font-medium text-white">Master</div>
 
                         <NavLink
-                            url="#"
+                            url={route('admin.faculties.index')}
                             active={url.startsWith('/admin/faculties')}
                             title="Fakultas"
                             icon={IconBuildingSkyscraper}

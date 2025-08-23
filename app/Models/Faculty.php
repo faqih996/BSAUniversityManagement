@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,7 +20,7 @@ class Faculty extends Model
         'slug',
     ];
 
-    protected function code():Attribute
+    protected function code(): Attribute
 
     {
         return Attribute::make(
@@ -27,7 +28,6 @@ class Faculty extends Model
 
             set: fn(string $value) => strtolower($value),
         );
-
     }
 
     public function departments(): HasMany
@@ -38,5 +38,22 @@ class Faculty extends Model
     public function students(): HasMany
     {
         return $this->hasMany(Student::class);
+    }
+
+    public function scopeFilter(Builder $query, array $filters): void
+    {
+        $query->when($filters['search'] ?? null, function ($query, $search) {
+            $query->whereAny([
+                'name',
+                'code'
+            ], 'REGEXP', $search);
+        });
+    }
+
+    public function scopeSorting(Builder $query, array $sorts): void
+    {
+        $query->when($sorts['field'] ?? null && $sorts['direction'] ?? null, function ($query) use ($sorts) {
+            $query->orderBy($sorts['field'], $sorts['direction']);
+        });
     }
 }
