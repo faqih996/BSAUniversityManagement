@@ -14,21 +14,18 @@ trait HasFile
     {
 
         return $request->hasFile($column) ? $request->file($column)->store($folder) : null;
-
     }
 
     public function update_file(Request $request, Model $model, string $column, string $folder): ?string
     {
-        if($request->hasFile($column)){
+        if ($request->hasFile($column)) {
 
             $this->delete_file($model, $column);
 
             $thumbnail = $request->file($column)->store($folder);
-
-        }else{
+        } else {
 
             $thumbnail = $model->$column;
-
         }
 
         return $thumbnail;
@@ -36,10 +33,9 @@ trait HasFile
 
     public function delete_file(Model $model, string $column): void
     {
-        if($model->column){
+        if ($model->column) {
 
             Storage::delete($model->$column);
-
         }
     }
 }
