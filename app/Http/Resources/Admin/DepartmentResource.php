@@ -4,9 +4,8 @@ namespace App\Http\Resources\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Storage;
 
-class FacultyResource extends JsonResource
+class DepartmentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,8 +19,12 @@ class FacultyResource extends JsonResource
             'name' => $this->name,
             'code' => $this->code,
             'slug' => $this->slug,
-            'logo' => $this->logo ? Storage::url(path: $this->url) : null,
             'created_at' => $this->created_at,
+            'faculty' => $this->whenLoaded('faculty', [
+                'id' => $this->faculty?->id,
+                'name' => $this->faculty?->name,
+                'code' => $this->faculty?->code,
+            ])
         ];
     }
 }

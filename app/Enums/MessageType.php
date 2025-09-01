@@ -16,10 +16,9 @@ enum MessageType: string
 
 
     public function message(string $entity = '', ?string $error = null): string
-    
+
     {
-        if($this === MessageType::ERROR && $error)
-        {
+        if ($this === MessageType::ERROR && $error) {
             return "{$this->value} {$error}";
         }
 
