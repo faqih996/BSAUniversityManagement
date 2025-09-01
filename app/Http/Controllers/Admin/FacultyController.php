@@ -52,7 +52,7 @@ class FacultyController extends Controller
     {
         return inertia('Admin/Faculties/Create', props: [
             'page_settings' => [
-                'title' => 'Tambah Fakultas',
+                'title' => 'Tambah fakultas',
                 'subtitle' => 'Buat fakultas baru disini. klik simpan setelah selesai',
                 'method' => 'POST',
                 'action' => route('admin.faculties.store')
