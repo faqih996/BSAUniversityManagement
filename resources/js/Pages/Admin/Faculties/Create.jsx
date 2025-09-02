@@ -67,8 +67,8 @@ export default function Create(props) {
             <Card>
                 <CardContent className='p-6'>
                     <form onSubmit={onHandleSubmit}>
-                        <div className="grid grid-cols-1 gap-4 lg:cols-grid-4">
-                            <div className="cols-span-full">
+                        <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
+                            <div className="col-span-full">
                                 <Label htmlFor='name'>Nama Fakultas</Label>
                                 <Input
                                     type='text'
@@ -82,7 +82,7 @@ export default function Create(props) {
                                 {errors.name && <InputError message={errors.name}/>}
                             </div>
 
-                            <div className="cols-span-full">
+                            <div className="col-span-full">
                                 <Label htmlFor='logo'>Logo Fakultas</Label>
                                 <Input
                                     type='file'

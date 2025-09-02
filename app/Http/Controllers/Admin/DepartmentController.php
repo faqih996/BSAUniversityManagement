@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\MessageType;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\DepartmentRequest;
 use App\Http\Resources\Admin\DepartmentResource;
 use App\Models\Department;
 use App\Models\Faculty;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
+use Throwable;
 
 class DepartmentController extends Controller
 {
@@ -54,5 +58,78 @@ class DepartmentController extends Controller
                 'label' => $item->name
             ]),
         ]);
+    }
+
+    public function store(DepartmentRequest $request): RedirectResponse
+    {
+        try {
+            Department::create([
+                'faculty_id' => $request->faculty_id,
+                'name' => $request->name,
+                'code' => str()->random(6)
+            ]);
+
+            flashMessage(MessageType::CREATED->message('Program Studi'));
+
+            return to_route('admin.departments.index');
+        } catch (Throwable $e) {
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+
+            return to_route('admin.departments.index');
+        }
+    }
+
+    public function edit(Department $department): Response
+    {
+        return Inertia('Admin/Departments/Edit', [
+            'page_settings' => [
+                'title' => 'Edit program studi',
+                'subtitle' => 'Edit program studi disini. Klik simpan setelah selesai',
+                'method' => 'PUT',
+                'action' => route('admin.departments.update', $department),
+            ],
+            'department' => $department,
+            'faculties' => Faculty::query()->select(['id', 'name'])->orderBy('name')->get()->map(fn($item) => [
+                'value' => $item->id,
+                'label' => $item->name,
+            ])
+        ]);
+    }
+
+    public function update(Department $department, DepartmentRequest $request): RedirectResponse
+    {
+        try {
+
+            $department->update([
+                'faculty_id' => $request->faculty_id,
+                'name' => $request->name
+            ]);
+
+            flashMessage(MessageType::UPDATED->message('Program Studi'));
+
+            return to_route('admin.departments.index');
+        } catch (Throwable $e) {
+
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+
+            return to_route('admin.departments.index');
+        }
+    }
+
+    public function destroy(Department $department): RedirectResponse
+    {
+        try {
+
+            $department->delete();
+
+            flashMessage(MessageType::DELETED->message('Program Studi'));
+
+            return to_route('admin.departments.index');
+        } catch (Throwable $e) {
+
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+
+            return to_route('admin.departments.index');
+        }
     }
 }

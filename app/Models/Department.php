@@ -6,6 +6,7 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Str;
 
 class Department extends Model
 {
@@ -51,5 +52,16 @@ class Department extends Model
                 default => $query->orderBy($sorts['field'], $sorts['direction'])
             };
         });
+    }
+
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = $value;
+        $this->attributes['slug'] = Str::slug($value);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }
