@@ -15,7 +15,7 @@ export default function Dashboard(props) {
             </div>
 
             {/* Statistik */}
-            <div className="grid gap-4 mb-8 lg:grid-cols-3">
+            <div className="mb-8 grid gap-4 lg:grid-cols-3">
                 <CardStat
                     data={{
                         title: 'Kartu Rencana Study Diterima',
@@ -49,7 +49,6 @@ export default function Dashboard(props) {
                     <div className="text-2xl font-bold">{props.count.total_payments}</div>
                 </CardStat>
             </div>
-
         </div>
     );
 }

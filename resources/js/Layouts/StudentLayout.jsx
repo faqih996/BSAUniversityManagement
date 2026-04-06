@@ -31,12 +31,12 @@ export default function StudentLayout({ title, children }) {
             <Toaster position="top-center" richColors />
 
             <div className="min-h-full">
-                <div className="pb-32 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700">
+                <div className="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 pb-32">
                     {/* Header Layout */}
                     <HeaderStudentLayout auth={auth} url={url} />
                 </div>
 
-                <main className="px-6 pb-12 -mt-32 lg:px-28">
+                <main className="-mt-32 px-6 pb-12 lg:px-28">
                     <Card>
                         <CardContent className="p-6">{children}</CardContent>
                     </Card>

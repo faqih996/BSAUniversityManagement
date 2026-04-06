@@ -18,6 +18,7 @@ class FacultyResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'slug' => $this->slug,
             'code' => $this->code,
             'slug' => $this->slug,
             'logo' => $this->logo ? Storage::url(path: $this->url) : null,
