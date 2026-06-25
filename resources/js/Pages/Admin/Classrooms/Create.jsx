@@ -8,14 +8,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import AppLayout from '@/Layouts/AppLayout';
 import { flashMessage } from '@/lib/utils';
 import { Link, useForm } from '@inertiajs/react';
-import { IconArrowLeft, IconCheck, IconSchool } from '@tabler/icons-react';
+import { IconArrowLeft, IconCheck, IconDoor } from '@tabler/icons-react';
 import { toast } from 'sonner';
 
-export default function Edit(props) {
+export default function Create(props) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        faculty_id: props.department.faculty_id ?? null,
-        name: props.department.name ?? '',
-        logo: null,
+        faculty_id: null,
+        department_id: null,
+        academic_year_id: props.academic_year.name,
+        name: '',
         _method: props.page_settings.method,
     });
 
@@ -36,16 +37,16 @@ export default function Edit(props) {
     const onHandleReset = () => reset();
 
     return (
-        <div className="flex flex-col w-full pb-32">
-            <div className="flex flex-col items-start justify-between mb-8 gap-y-4 lg:flex-row lg:items-center">
+        <div className="flex w-full flex-col pb-32">
+            <div className="mb-8 flex flex-col items-start justify-between gap-y-4 lg:flex-row lg:items-center">
                 <HeaderTitle
                     title={props.page_settings.title}
                     subtitle={props.page_settings.subtitle}
-                    icon={IconSchool}
+                    icon={IconDoor}
                 />
 
                 <Button variant="orange" size="xl" className="w-full lg:w-auto" asChild>
-                    <Link href={route('admin.departments.index')}>
+                    <Link href={route('admin.classrooms.index')}>
                         <IconArrowLeft className="size-4" />
                         Kembali
                     </Link>
@@ -82,6 +83,46 @@ export default function Edit(props) {
                             </div>
 
                             <div className="col-span-full">
+                                <Label htmlFor="department_id">Program Studi</Label>
+                                <Select
+                                    defaultValue={data.department_id}
+                                    onValueChange={(value) => setData('department_id', value)}
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue>
+                                            {props.departments.find(
+                                                (department) => department.value == data.department_id,
+                                            )?.label ?? 'Pilih program studi'}
+                                        </SelectValue>
+                                    </SelectTrigger>
+
+                                    <SelectContent>
+                                        {props.departments.map((department, index) => (
+                                            <SelectItem key={index} value={department.value}>
+                                                {department.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+
+                                {errors.department_id && <InputError message={errors.department_id} />}
+                            </div>
+
+                            <div className="col-span-full">
+                                <Label htmlFor="academic_year_id">Tahun Ajaran</Label>
+
+                                <Input
+                                    id="academic_year_id"
+                                    name="academic_year_id"
+                                    value={data.academic_year_id}
+                                    onChange={onHandleChange}
+                                    disabled
+                                />
+
+                                {errors.academic_year_id && <InputError message={errors.academic_year_id} />}
+                            </div>
+
+                            <div className="col-span-full">
                                 <Label htmlFor="name">Nama</Label>
                                 <Input
                                     type="text"
@@ -93,10 +134,9 @@ export default function Edit(props) {
                                 />
                                 {errors.name && <InputError message={errors.name} />}
                             </div>
-
                         </div>
 
-                        <div className="flex flex-col gap-2 mt-8 lg:flex-row lg:justify-end">
+                        <div className="mt-8 flex flex-col gap-2 lg:flex-row lg:justify-end">
                             <Button type="button" variant="ghost" size="xl" onClick={onHandleReset}>
                                 Reset
                             </Button>
@@ -113,4 +153,4 @@ export default function Edit(props) {
     );
 }
 
-Edit.layout = (page) => <AppLayout title={page.props.page_settings.title} children={page} />;
+Create.layout = (page) => <AppLayout title={page.props.page_settings.title} children={page} />;

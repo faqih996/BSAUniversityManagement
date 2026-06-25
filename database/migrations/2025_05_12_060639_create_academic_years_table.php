@@ -14,7 +14,6 @@ return new class extends Migration
     {
         Schema::create('academic_years', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('faculty_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('slug')->nullable()->unique();
             $table->string('start_date');

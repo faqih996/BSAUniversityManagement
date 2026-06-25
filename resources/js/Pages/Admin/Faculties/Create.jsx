@@ -40,8 +40,8 @@ export default function Create(props) {
     };
 
     return (
-        <div className="flex w-full flex-col pb-32">
-            <div className="mb-8 flex flex-col items-start justify-between gap-y-4 lg:flex-row lg:items-center">
+        <div className="flex flex-col w-full pb-32">
+            <div className="flex flex-col items-start justify-between mb-8 gap-y-4 lg:flex-row lg:items-center">
                 <HeaderTitle
                     title={props.page_settings.title}
                     subtitle={props.page_settings.subtitle}
@@ -86,17 +86,17 @@ export default function Create(props) {
 
                                 {errors.logo && <InputError message={errors.logo} />}
                             </div>
+                        </div>
 
-                            <div className="mt-8 flex flex-col gap-2 lg:flex-row lg:justify-end">
-                                <Button type="button" variant="ghost" size="xl" onClick={onHandleReset}>
-                                    Reset
-                                </Button>
+                        <div className="flex flex-col gap-2 mt-8 lg:flex-row lg:justify-end">
+                            <Button type="button" variant="ghost" size="xl" onClick={onHandleReset}>
+                                Reset
+                            </Button>
 
-                                <Button type="submit" variant="blue" size="xl" disabled={processing}>
-                                    <IconCheck />
-                                    Save
-                                </Button>
-                            </div>
+                            <Button type="submit" variant="blue" size="xl" disabled={processing}>
+                                <IconCheck />
+                                Save
+                            </Button>
                         </div>
                     </form>
                 </CardContent>
