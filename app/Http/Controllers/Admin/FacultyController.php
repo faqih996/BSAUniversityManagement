@@ -70,7 +70,7 @@ class FacultyController extends Controller
                 'logo' => $this->upload_file($request, 'logo', 'faculties')
             ]);
 
-            flashMessage(MessageType::CREATED->message('fakultas'));
+            flashMessage(MessageType::CREATED->message('Fakultas'));
 
             return to_route('admin.faculties.index');
         } catch (Throwable $e) {

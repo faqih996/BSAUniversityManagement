@@ -80,7 +80,12 @@ export default function Sidebar({ auth, url }) {
                             icon={IconDoor}
                         />
 
-                        <NavLink url={route('admin.roles.index')} active={url.startsWith('/admin/roles')} title="Peran" icon={IconCircleKey} />
+                        <NavLink
+                            url={route('admin.roles.index')}
+                            active={url.startsWith('/admin/roles')}
+                            title="Peran"
+                            icon={IconCircleKey}
+                        />
 
                         <div className="px-3 py-2 text-xs font-medium text-white">Pengguna</div>
 

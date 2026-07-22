@@ -43,8 +43,8 @@ export default function Index(props) {
     });
 
     return (
-        <div className="flex flex-col w-full pb-32">
-            <div className="flex flex-col items-start justify-between mb-8 gap-y-4 lg:flex-row lg:items-center">
+        <div className="flex w-full flex-col pb-32">
+            <div className="mb-8 flex flex-col items-start justify-between gap-y-4 lg:flex-row lg:items-center">
                 <HeaderTitle
                     title={props.page_settings.title}
                     subtitle={props.page_settings.subtitle}
@@ -60,9 +60,9 @@ export default function Index(props) {
             </div>
 
             <Card>
-                <CardHeader className="p-0 mb-4">
+                <CardHeader className="mb-4 p-0">
                     {/* Filters */}
-                    <div className="flex flex-col w-full gap-4 px-6 py-4 lg:flex-row lg:items-center">
+                    <div className="flex w-full flex-col gap-4 px-6 py-4 lg:flex-row lg:items-center">
                         <Input
                             className="w-full sm:w-1/4"
                             placeholder="Search...."
@@ -111,7 +111,7 @@ export default function Index(props) {
                                             onClick={() => onSortable('id')}
                                         >
                                             #
-                                            <span className="flex-none ml-2 rounded text-muted-foreground">
+                                            <span className="ml-2 flex-none rounded text-muted-foreground">
                                                 <IconArrowsDownUp className="size-4" />
                                             </span>
                                         </Button>
@@ -123,7 +123,7 @@ export default function Index(props) {
                                             onClick={() => onSortable('name')}
                                         >
                                             Nama
-                                            <span className="flex-none ml-2 rounded text-muted-foreground">
+                                            <span className="ml-2 flex-none rounded text-muted-foreground">
                                                 <IconArrowsDownUp className="size-4" />
                                             </span>
                                         </Button>
@@ -135,7 +135,7 @@ export default function Index(props) {
                                             onClick={() => onSortable('code')}
                                         >
                                             Kode
-                                            <span className="flex-none ml-2 rounded text-muted-foreground">
+                                            <span className="ml-2 flex-none rounded text-muted-foreground">
                                                 <IconArrowsDownUp className="size-4" />
                                             </span>
                                         </Button>
@@ -148,7 +148,7 @@ export default function Index(props) {
                                             onClick={() => onSortable('created_at')}
                                         >
                                             Dibuat pada
-                                            <span className="flex-none ml-2 rounded text-muted-foreground">
+                                            <span className="ml-2 flex-none rounded text-muted-foreground">
                                                 <IconArrowsDownUp className="size-4" />
                                             </span>
                                         </Button>
@@ -195,7 +195,7 @@ export default function Index(props) {
                         </Table>
                     )}
                 </CardContent>
-                <CardFooter className="flex flex-col items-center justify-between w-full py-3 border-t gap-y-2 lg:flex-row">
+                <CardFooter className="flex w-full flex-col items-center justify-between gap-y-2 border-t py-3 lg:flex-row">
                     <p className="text-sm text-muted-foreground">
                         Menampilkan <span className="font-medium text-blue-600">{meta.from ?? 0}</span> dari{' '}
                         {meta.total} fakultas

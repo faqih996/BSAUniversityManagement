@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import AppLayout from '@/Layouts/AppLayout';
 import { flashMessage } from '@/lib/utils';
 import { Link, useForm } from '@inertiajs/react';
-import { IconArrowLeft, IconCheck, IconCalendar } from '@tabler/icons-react';
+import { IconArrowLeft, IconCalendar, IconCheck } from '@tabler/icons-react';
 import { toast } from 'sonner';
 
 export default function Create(props) {
@@ -39,8 +39,8 @@ export default function Create(props) {
     const onHandleReset = () => reset();
 
     return (
-        <div className="flex flex-col w-full pb-32">
-            <div className="flex flex-col items-start justify-between mb-8 gap-y-4 lg:flex-row lg:items-center">
+        <div className="flex w-full flex-col pb-32">
+            <div className="mb-8 flex flex-col items-start justify-between gap-y-4 lg:flex-row lg:items-center">
                 <HeaderTitle
                     title={props.page_settings.title}
                     subtitle={props.page_settings.subtitle}
@@ -59,7 +59,6 @@ export default function Create(props) {
                 <CardContent className="p-6">
                     <form onSubmit={onHandleSubmit}>
                         <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
-
                             <div className="col-span-full">
                                 <Label htmlFor="name">Nama</Label>
                                 <Input
@@ -106,9 +105,8 @@ export default function Create(props) {
                                     <SelectTrigger>
                                         <SelectValue>
                                             {props.academicYearSemester.find(
-                                                (semester) => semester.value == data.semester
-                                            )?.label ?? 'Pilih Semester'
-                                            }
+                                                (semester) => semester.value == data.semester,
+                                            )?.label ?? 'Pilih Semester'}
                                         </SelectValue>
                                     </SelectTrigger>
 
@@ -125,24 +123,23 @@ export default function Create(props) {
                             </div>
 
                             <div className="col-span-full">
-                                <div className="flex space-x-2 items-top">
+                                <div className="items-top flex space-x-2">
                                     <Checkbox
-                                        id='is_active'
-                                        name='is_active'
+                                        id="is_active"
+                                        name="is_active"
                                         checked={data.is_active}
                                         onCheckedChange={(checked) => setData('is_active', checked)}
                                     />
 
-                                    <div className="grid leading-none gap-1/5">
+                                    <div className="gap-1/5 grid leading-none">
                                         <Label htmlFor="is_active">Apakah aktif?</Label>
                                     </div>
-                                {errors.is_active && <InputError message={errors.is_active} />}
+                                    {errors.is_active && <InputError message={errors.is_active} />}
                                 </div>
                             </div>
-
                         </div>
 
-                        <div className="flex flex-col gap-2 mt-8 lg:flex-row lg:justify-end">
+                        <div className="mt-8 flex flex-col gap-2 lg:flex-row lg:justify-end">
                             <Button type="button" variant="ghost" size="xl" onClick={onHandleReset}>
                                 Reset
                             </Button>
@@ -152,7 +149,6 @@ export default function Create(props) {
                                 Save
                             </Button>
                         </div>
-
                     </form>
                 </CardContent>
             </Card>

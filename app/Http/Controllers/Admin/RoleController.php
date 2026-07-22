@@ -3,10 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\RoleRequest;
 use App\Http\Resources\Admin\RoleResource;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
 use Spatie\Permission\Models\Role;
+use App\Enums\MessageType;
+use Illuminate\Http\Request;
+use PhpParser\Node\Stmt\TryCatch;
+use Inertia\Inertia;
+use Throwable;
 
 class RoleController extends Controller
 {
@@ -36,5 +42,86 @@ class RoleController extends Controller
                 'load' => 10,
             ]
         ]);
+    }
+
+    public function create(): Response
+    {
+        return inertia('Admin/Roles/Create', props: [
+            'page_settings' => [
+                'title' => 'Tambah peran',
+                'subtitle' => 'Buat peran baru disini. klik simpan setelah selesai',
+                'method' => 'POST',
+                'action' => route('admin.roles.store')
+            ],
+        ]);
+    }
+
+    public function store(RoleRequest $request): RedirectResponse
+    {
+        try {
+
+            Role::create([
+                'name' => $request->name,
+                'guard_name' => 'web'
+            ]);
+
+            flashMessage(MessageType::CREATED->message('Peran'));
+
+            return to_route('admin.roles.index');
+        } catch (Throwable $e) {
+
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+
+            return to_route('admin.roles.index');
+        }
+    }
+
+    public function edit(Role $role): Response
+    {
+        return inertia('Admin/Roles/Edit', props: [
+            'page_settings' => [
+                'title' => 'Edit Peran',
+                'subtitle' => 'Edit peran disini. klik simpan setelah selesai',
+                'method' => 'PUT',
+                'action' => route('admin.roles.update', $role)
+            ],
+            'role' => $role
+        ]);
+    }
+
+    public function update(Role $role, RoleRequest $request): RedirectResponse
+    {
+        try {
+
+            $role->update([
+                'name' => $request->name
+            ]);
+
+            flashMessage(MessageType::UPDATED->message('Peran'));
+
+            return to_route('admin.roles.index');
+        } catch (Throwable $e) {
+
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+
+            return to_route('admin.roles.index');
+        }
+    }
+
+    public function destroy(Role $role): RedirectResponse
+    {
+        try {
+
+            $role->delete();
+
+            flashMessage(MessageType::DELETED->message('Peran'));
+
+            return to_route('admin.roles.index');
+        } catch (Throwable $e) {
+
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+
+            return to_route('admin.roles.index');
+        }
     }
 }

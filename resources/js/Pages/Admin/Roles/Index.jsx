@@ -3,7 +3,6 @@ import EmptyState from '@/Components/EmptyState';
 import HeaderTitle from '@/Components/HeaderTitle';
 import PaginationTable from '@/Components/PaginationTable';
 import ShowFilter from '@/Components/ShowFilter';
-import { Avatar, AvatarFallback, AvatarImage } from '@/Components/ui/avatar';
 import { Button } from '@/Components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/Components/ui/card';
 import { Input } from '@/Components/ui/input';
@@ -13,14 +12,7 @@ import useFilter from '@/hooks/UseFilter';
 import AppLayout from '@/Layouts/AppLayout';
 import { deleteAction, formatDateIndo } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
-import {
-    IconArrowsDownUp,
-    IconPencil,
-    IconPlus,
-    IconRefresh,
-    IconTrash,
-    IconCircleKey
-} from '@tabler/icons-react';
+import { IconArrowsDownUp, IconCircleKey, IconPencil, IconPlus, IconRefresh, IconTrash } from '@tabler/icons-react';
 import { useState } from 'react';
 
 export default function Index(props) {
@@ -43,8 +35,8 @@ export default function Index(props) {
     });
 
     return (
-        <div className="flex flex-col w-full pb-32">
-            <div className="flex flex-col items-start justify-between mb-8 gap-y-4 lg:flex-row lg:items-center">
+        <div className="flex w-full flex-col pb-32">
+            <div className="mb-8 flex flex-col items-start justify-between gap-y-4 lg:flex-row lg:items-center">
                 <HeaderTitle
                     title={props.page_settings.title}
                     subtitle={props.page_settings.subtitle}
@@ -60,9 +52,9 @@ export default function Index(props) {
             </div>
 
             <Card>
-                <CardHeader className="p-0 mb-4">
+                <CardHeader className="mb-4 p-0">
                     {/* Filters */}
-                    <div className="flex flex-col w-full gap-4 px-6 py-4 lg:flex-row lg:items-center">
+                    <div className="flex w-full flex-col gap-4 px-6 py-4 lg:flex-row lg:items-center">
                         <Input
                             className="w-full sm:w-1/4"
                             placeholder="Search...."
@@ -111,7 +103,7 @@ export default function Index(props) {
                                             onClick={() => onSortable('id')}
                                         >
                                             #
-                                            <span className="flex-none ml-2 rounded text-muted-foreground">
+                                            <span className="ml-2 flex-none rounded text-muted-foreground">
                                                 <IconArrowsDownUp className="size-4" />
                                             </span>
                                         </Button>
@@ -123,7 +115,7 @@ export default function Index(props) {
                                             onClick={() => onSortable('name')}
                                         >
                                             Nama
-                                            <span className="flex-none ml-2 rounded text-muted-foreground">
+                                            <span className="ml-2 flex-none rounded text-muted-foreground">
                                                 <IconArrowsDownUp className="size-4" />
                                             </span>
                                         </Button>
@@ -135,7 +127,7 @@ export default function Index(props) {
                                             onClick={() => onSortable('guard_name')}
                                         >
                                             Guard Name
-                                            <span className="flex-none ml-2 rounded text-muted-foreground">
+                                            <span className="ml-2 flex-none rounded text-muted-foreground">
                                                 <IconArrowsDownUp className="size-4" />
                                             </span>
                                         </Button>
@@ -147,7 +139,7 @@ export default function Index(props) {
                                             onClick={() => onSortable('created_at')}
                                         >
                                             Dibuat pada
-                                            <span className="flex-none ml-2 rounded text-muted-foreground">
+                                            <span className="ml-2 flex-none rounded text-muted-foreground">
                                                 <IconArrowsDownUp className="size-4" />
                                             </span>
                                         </Button>
@@ -176,9 +168,7 @@ export default function Index(props) {
                                                             <IconTrash className="size-4" />
                                                         </Button>
                                                     }
-                                                    action={() =>
-                                                        deleteAction(route('admin.roles.destroy', [role]))
-                                                    }
+                                                    action={() => deleteAction(route('admin.roles.destroy', [role]))}
                                                 />
                                             </div>
                                         </TableCell>
@@ -188,7 +178,7 @@ export default function Index(props) {
                         </Table>
                     )}
                 </CardContent>
-                <CardFooter className="flex flex-col items-center justify-between w-full py-3 border-t gap-y-2 lg:flex-row">
+                <CardFooter className="flex w-full flex-col items-center justify-between gap-y-2 border-t py-3 lg:flex-row">
                     <p className="text-sm text-muted-foreground">
                         Menampilkan <span className="font-medium text-blue-600">{meta.from ?? 0}</span> dari{' '}
                         {meta.total} Peran
