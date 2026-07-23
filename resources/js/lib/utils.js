@@ -38,7 +38,7 @@ export const formatDateIndo = (dateString) => {
 };
 
 export const formatToRupiah = (amount) => {
-    return new Intl.NumberFormat('id-ID', {
+    const formatter = new Intl.NumberFormat('id-ID', {
         style: 'currency',
         currency: 'IDR',
         minimumFractionDigits: 0,
