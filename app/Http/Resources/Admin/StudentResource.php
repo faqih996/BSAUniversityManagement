@@ -39,7 +39,7 @@ class StudentResource extends JsonResource
                 'id' => $this->classroom?->id,
                 'name' => $this->classroom?->name,
             ]),
-            'fee_group' => $this->whenLoaded('feeGroup', [
+            'feeGroup' => $this->whenLoaded('feeGroup', [
                 'id' => $this->feeGroup?->id,
                 'group' => $this->feeGroup?->group,
                 'amount' => $this->feeGroup?->amount,

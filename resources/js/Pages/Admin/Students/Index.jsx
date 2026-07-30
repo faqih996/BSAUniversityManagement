@@ -3,7 +3,7 @@ import EmptyState from '@/Components/EmptyState';
 import HeaderTitle from '@/Components/HeaderTitle';
 import PaginationTable from '@/Components/PaginationTable';
 import ShowFilter from '@/Components/ShowFilter';
-import { AvatarFallback } from '@/Components/ui/avatar';
+import { Avatar, AvatarImage, AvatarFallback } from '@/Components/ui/avatar';
 import { Button } from '@/Components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/Components/ui/card';
 import { Input } from '@/Components/ui/input';
@@ -13,7 +13,6 @@ import useFilter from '@/hooks/UseFilter';
 import AppLayout from '@/Layouts/AppLayout';
 import { deleteAction, formatDateIndo } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
-import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
 import { IconArrowsDownUp, IconPencil, IconPlus, IconRefresh, IconTrash, IconUser } from '@tabler/icons-react';
 import { useState } from 'react';
 
@@ -111,7 +110,7 @@ export default function Index(props) {
                                         </Button>
                                     </TableHead>
                                     <TableHead>
-                                        <Button
+                                        <Button 
                                             variant="ghost"
                                             className="inline-flex-group"
                                             onClick={() => onSortable('name')}
@@ -121,7 +120,7 @@ export default function Index(props) {
                                                 <IconArrowsDownUp className="size-4" />
                                             </span>
                                         </Button>
-                                        </TableHead>
+                                    </TableHead>
 
                                     <TableHead>
                                         <Button
@@ -134,9 +133,9 @@ export default function Index(props) {
                                                 <IconArrowsDownUp className="size-4" />
                                             </span>
                                         </Button>
-                                        </TableHead>
+                                    </TableHead>
 
-                                        <TableHead>
+                                    <TableHead>
                                         <Button
                                             variant="ghost"
                                             className="inline-flex-group"
@@ -147,9 +146,9 @@ export default function Index(props) {
                                                 <IconArrowsDownUp className="size-4" />
                                             </span>
                                         </Button>
-                                        </TableHead>
+                                    </TableHead>
 
-                                        <TableHead>
+                                    <TableHead>
                                         <Button
                                             variant="ghost"
                                             className="inline-flex-group"
@@ -160,9 +159,9 @@ export default function Index(props) {
                                                 <IconArrowsDownUp className="size-4" />
                                             </span>
                                         </Button>
-                                        </TableHead>
+                                    </TableHead>
 
-                                        <TableHead>
+                                    <TableHead>
                                         <Button
                                             variant="ghost"
                                             className="inline-flex-group"
@@ -173,9 +172,9 @@ export default function Index(props) {
                                                 <IconArrowsDownUp className="size-4" />
                                             </span>
                                         </Button>
-                                        </TableHead>
+                                    </TableHead>
 
-                                        <TableHead>
+                                    <TableHead>
                                         <Button
                                             variant="ghost"
                                             className="inline-flex-group"
@@ -188,7 +187,7 @@ export default function Index(props) {
                                         </Button>
                                     </TableHead>
 
-                                        <TableHead>
+                                    <TableHead>
                                         <Button
                                             variant="ghost"
                                             className="inline-flex-group"
@@ -201,7 +200,7 @@ export default function Index(props) {
                                         </Button>
                                     </TableHead>
 
-                                        <TableHead>
+                                    <TableHead>
                                         <Button
                                             variant="ghost"
                                             className="inline-flex-group"
@@ -212,9 +211,9 @@ export default function Index(props) {
                                                 <IconArrowsDownUp className="size-4" />
                                             </span>
                                         </Button>
-                                        </TableHead>
+                                    </TableHead>
 
-                                        <TableHead>
+                                    <TableHead>
                                         <Button
                                             variant="ghost"
                                             className="inline-flex-group"
@@ -249,16 +248,16 @@ export default function Index(props) {
                                         <TableCell className="flex items-center gap-2">
                                             <Avatar>
                                                 <AvatarImage src={student.user.avatar} />
-                                                <AvatarFallback>{ student.user.name.substring(0,1) }</AvatarFallback>
+                                                <AvatarFallback>{student.user.name.substring(0, 1)}</AvatarFallback>
                                             </Avatar>
 
-                                            <span>{ student.user.name }</span>
+                                            <span>{student.user.name}</span>
                                         </TableCell>
                                         <TableCell>{student.user.email}</TableCell>
                                         <TableCell>{student.faculty.name}</TableCell>
                                         <TableCell>{student.department.name}</TableCell>
                                         <TableCell>{student.classroom.name}</TableCell>
-                                        <TableCell>{student.feeGroup.name}</TableCell>
+                                        <TableCell>{student.feeGroup.group}</TableCell>
                                         <TableCell>{student.student_number}</TableCell>
                                         <TableCell>{student.semester}</TableCell>
                                         <TableCell>{student.batch}</TableCell>
@@ -276,7 +275,9 @@ export default function Index(props) {
                                                             <IconTrash className="size-4" />
                                                         </Button>
                                                     }
-                                                    action={() => deleteAction(route('admin.students.destroy', [student]))}
+                                                    action={() =>
+                                                        deleteAction(route('admin.students.destroy', [student]))
+                                                    }
                                                 />
                                             </div>
                                         </TableCell>

@@ -24,6 +24,7 @@ export default function ComboBox({ items, selectedItem, onSelect, placeholder = 
                     size="xl"
                 >
                     {items.find((item) => item.label == selectedItem)?.label ?? placeholder}
+                    {/* {items.find((item) => item.value === selectedItem)?.label ?? placeholder} */}
                     <IconCaretDown className="ml-2 size-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
@@ -43,6 +44,7 @@ export default function ComboBox({ items, selectedItem, onSelect, placeholder = 
                                         className={cn(
                                             'ml-auto size-4',
                                             selectedItem === item.label ? 'opacity-100' : 'opacity-0',
+                                            // selectedItem === item.value ? 'opacity-100' : 'opacity-0'
                                         )}
                                     />
                                 </CommandItem>

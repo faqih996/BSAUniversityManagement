@@ -8,13 +8,24 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
 use App\Enums\MessageType;
+use App\Http\Requests\Admin\StudentRequest;
 use App\Http\Resources\Admin\StudentResource;
+use App\Models\Classroom;
+use App\Models\Department;
+use App\Models\Faculty;
+use App\Models\FeeGroup;
+use App\Models\User;
+use App\Traits\HasFile;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use PhpParser\Node\Stmt\TryCatch;
 use Inertia\Inertia;
 use Throwable;
 
 class StudentController extends Controller
 {
+    use HasFile;
+
     public function index(): Response
     {
         $students = Student::query()
@@ -45,5 +56,153 @@ class StudentController extends Controller
                 'load' => 10,
             ]
         ]);
+    }
+
+    public function create(): Response
+    {
+        return inertia('Admin/Students/Create', props: [
+            'page_settings' => [
+                'title' => 'Tambah mahasiswa',
+                'subtitle' => 'Buat mahasiswa baru disini. klik simpan setelah selesai',
+                'method' => 'POST',
+                'action' => route('admin.students.store')
+            ],
+            'faculties' => Faculty::query()->select(['id', 'name'])->orderBy('name')->get()->map(fn($item) => [
+                'value' => $item->id,
+                'label' => $item->name
+            ]),
+            'departments' => Department::query()->select(['id', 'name'])->orderBy('name')->get()->map(fn($item) => [
+                'value' => $item->id,
+                'label' => $item->name
+            ]),
+            'feeGroups' => FeeGroup::query()->select(['id', 'group', 'amount'])->orderBy('group')->get()->map(fn($item) => [
+                'value' => $item->id,
+                'label' => 'Golongan ' . $item->group . ' - ' . number_format($item->amount, 0, ',', '.'),
+            ]),
+            'classrooms' => Classroom::query()->select(['id', 'name'])->orderBy('name')->get()->map(fn($item) => [
+                'value' => $item->id,
+                'label' => $item->name
+            ]),
+        ]);
+    }
+
+    public function store(StudentRequest $request): RedirectResponse
+    {
+        try {
+
+            DB::beginTransaction();
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'avatar' => $this->upload_file($request, 'avatar', 'users')
+            ]);
+
+            $user->student()->create([
+                'faculty_id' => $request->faculty_id,
+                'department_id' => $request->department_id,
+                'classroom_id' => $request->classroom_id,
+                'fee_group_id' => $request->fee_group_id,
+                'student_number' => $request->student_number,
+                'semester' => $request->semester,
+                'batch' => $request->batch,
+            ]);
+
+            $user->assignRole('Student');
+            DB::commit();
+            flashMessage(MessageType::CREATED->message('Mahasiswa'));
+
+            return to_route('admin.students.index');
+        } catch (Throwable $e) {
+
+            DB::rollBack();
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+
+            return to_route('admin.students.index');
+        }
+    }
+
+    public function edit(Student $student): Response
+    {
+        return inertia('Admin/Students/Edit', props: [
+            'page_settings' => [
+                'title' => 'Edit mahasiswa',
+                'subtitle' => 'Edit mahasiswa baru disini. klik simpan setelah selesai',
+                'method' => 'PUT',
+                'action' => route('admin.students.update', $student)
+            ],
+
+            'student' => $student->load('user'),
+            'faculties' => Faculty::query()->select(['id', 'name'])->orderBy('name')->get()->map(fn($item) => [
+                'value' => $item->id,
+                'label' => $item->name
+            ]),
+            'departments' => Department::query()->select(['id', 'name'])->orderBy('name')->get()->map(fn($item) => [
+                'value' => $item->id,
+                'label' => $item->name
+            ]),
+            'feeGroups' => FeeGroup::query()->select(['id', 'group', 'amount'])->orderBy('group')->get()->map(fn($item) => [
+                'value' => $item->id,
+                'label' => 'Golongan ' . $item->group . ' - ' . number_format($item->amount, 0, ',', '.'),
+            ]),
+            'classrooms' => Classroom::query()->select(['id', 'name'])->orderBy('name')->get()->map(fn($item) => [
+                'value' => $item->id,
+                'label' => $item->name
+            ]),
+        ]);
+    }
+
+    public function update(StudentRequest $request, Student $student): RedirectResponse
+    {
+        try {
+
+            DB::beginTransaction();
+
+            $student->update([
+                'faculty_id' => $request->faculty_id,
+                'department_id' => $request->department_id,
+                'classroom_id' => $request->classroom_id,
+                'fee_group_id' => $request->fee_group_id,
+                'student_number' => $request->student_number,
+                'semester' => $request->semester,
+                'batch' => $request->batch,
+            ]);
+
+            $student->user()->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => $request->password ? Hash::make($request->password) : $student->user->password,
+                'avatar' => $this->upload_file($request, $student->user, 'avatar', 'users')
+            ]);
+
+            DB::commit();
+            flashMessage(MessageType::UPDATED->message('Mahasiswa'));
+
+            return to_route('admin.students.index');
+        } catch (Throwable $e) {
+
+            DB::rollBack();
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+
+            return to_route('admin.students.index');
+        }
+    }
+
+    public function destroy(Student $student): RedirectResponse
+    {
+        try {
+
+            $this->delete_file($student->user, 'avatar');
+            $student->delete();
+
+            flashMessage(MessageType::DELETED->message('Mahasiswa'));
+
+            return to_route('admin.students.index');
+        } catch (Throwable $e) {
+
+            flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
+
+            return to_route('admin.students.index');
+        }
     }
 }

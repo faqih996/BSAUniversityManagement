@@ -168,7 +168,9 @@ export default function Index(props) {
                                                             <IconTrash className="size-4" />
                                                         </Button>
                                                     }
-                                                    action={() => deleteAction(route('admin.fee-groups.destroy', [feeGroup]))}
+                                                    action={() =>
+                                                        deleteAction(route('admin.fee-groups.destroy', [feeGroup]))
+                                                    }
                                                 />
                                             </div>
                                         </TableCell>

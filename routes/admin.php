@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\FacultyController;
 use App\Http\Controllers\Admin\FeeGroupController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\StudentController;
-use App\Models\Faculty;
+use App\Http\Controllers\Admin\ClassroomStudentController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->middleware('auth', 'role:Admin')->group(function () {
@@ -75,5 +75,12 @@ Route::prefix('admin')->middleware('auth', 'role:Admin')->group(function () {
         Route::get('students/edit/{student:student_number}', 'edit')->name('admin.students.edit');
         Route::put('students/edit/{student:student_number}', 'update')->name('admin.students.update');
         Route::delete('students/destroy/{student:student_number}', 'destroy')->name('admin.students.destroy');
+    });
+
+    Route::controller(ClassroomStudentController::class)->group(function () {
+        Route::get('classrooms/students/{classroom:slug}', 'index')->name('admin.classroom-students.index');
+        Route::put('classrooms/students/{classroom:slug}/sync', 'sync')->name('admin.classroom-students.sync');
+        Route::delete('classrooms/students/{classroom:slug}/destroy/{student:student_number}', 'destroy')
+        ->name('admin.classroom-students.destroy');
     });
 });
