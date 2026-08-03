@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\FeeGroupController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
+use App\Http\Controllers\Admin\OperatorController;
 use App\Http\Controllers\Admin\ClassroomStudentController;
 use Illuminate\Support\Facades\Route;
 
@@ -92,5 +93,23 @@ Route::prefix('admin')->middleware('auth', 'role:Admin')->group(function () {
         Route::get('teachers/edit/{teacher:teacher_number}', 'edit')->name('admin.teachers.edit');
         Route::put('teachers/edit/{teacher:teacher_number}', 'update')->name('admin.teachers.update');
         Route::delete('teachers/destroy/{teacher:teacher_number}', 'destroy')->name('admin.teachers.destroy');
+    });
+
+    Route::controller(OperatorController::class)->group(function () {
+        Route::get('operators', 'index')->name('admin.operators.index');
+        Route::get('operators/create', 'create')->name('admin.operators.create');
+        Route::post('operators/create', 'store')->name('admin.operators.store');
+        Route::get('operators/edit/{operator:employee_number}', 'edit')->name('admin.operators.edit');
+        Route::put('operators/edit/{operator:employee_number}', 'update')->name('admin.operators.update');
+        Route::delete('operators/destroy/{operator:employee_number}', 'destroy')->name('admin.operators.destroy');
+    });
+
+    Route::controller(CourseController::class)->group(function () {
+        Route::get('courses', 'index')->name('admin.courses.index');
+        Route::get('courses/create', 'create')->name('admin.courses.create');
+        Route::post('courses/create', 'store')->name('admin.courses.store');
+        Route::get('courses/edit/{course:code}', 'edit')->name('admin.courses.edit');
+        Route::put('courses/edit/{course:code}', 'update')->name('admin.courses.update');
+        Route::delete('courses/destroy/{course:code}', 'destroy')->name('admin.courses.destroy');
     });
 });
