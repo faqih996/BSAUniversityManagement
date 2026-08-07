@@ -13,11 +13,11 @@ import useFilter from '@/hooks/UseFilter';
 import AppLayout from '@/Layouts/AppLayout';
 import { deleteAction, formatDateIndo } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
-import { IconArrowsDownUp, IconPencil, IconPlus, IconRefresh, IconTrash, IconUser } from '@tabler/icons-react';
+import { IconArrowsDownUp, IconBooks, IconPencil, IconPlus, IconRefresh, IconTrash } from '@tabler/icons-react';
 import { useState } from 'react';
 
 export default function Index(props) {
-    const { data: operators, meta, links } = props.operators;
+    const { data: courses, meta, links } = props.courses;
 
     const [params, setParams] = useState(props.state);
 
@@ -30,9 +30,9 @@ export default function Index(props) {
     };
 
     useFilter({
-        route: route('admin.operators.index'),
+        route: route('admin.courses.index'),
         values: params,
-        only: ['operators'],
+        only: ['courses'],
     });
 
     return (
@@ -41,11 +41,11 @@ export default function Index(props) {
                 <HeaderTitle
                     title={props.page_settings.title}
                     subtitle={props.page_settings.subtitle}
-                    icon={IconUser}
+                    icon={IconBooks}
                 />
 
                 <Button variant="orange" size="xl" className="w-full lg:w-auto" asChild>
-                    <Link href={route('admin.operators.create')}>
+                    <Link href={route('admin.courses.create')}>
                         <IconPlus className="size-4" />
                         Tambah
                     </Link>
@@ -87,11 +87,11 @@ export default function Index(props) {
                 </CardHeader>
 
                 <CardContent className="p-0 [&-td]:whitespace-nowrap [&-td]:px-6 [&-th]:px-6">
-                    {operators.length === 0 ? (
+                    {courses.length === 0 ? (
                         <EmptyState
-                            icon={IconUser}
-                            title="Tidak ada operator"
-                            subtitle="Mulailah dengan membuat operator baru"
+                            icon={IconBooks}
+                            title="Tidak ada mata kuliah"
+                            subtitle="Mulailah dengan membuat mata kuliah baru"
                         />
                     ) : (
                         <Table className="w-full">
@@ -108,33 +108,8 @@ export default function Index(props) {
                                                 <IconArrowsDownUp className="size-4" />
                                             </span>
                                         </Button>
-                                    </TableHead>
-                                    <TableHead>
-                                        <Button 
-                                            variant="ghost"
-                                            className="inline-flex-group"
-                                            onClick={() => onSortable('name')}
-                                        >
-                                            Nama
-                                            <span className="ml-2 flex-none rounded text-muted-foreground">
-                                                <IconArrowsDownUp className="size-4" />
-                                            </span>
-                                        </Button>
-                                    </TableHead>
-
-                                    <TableHead>
-                                        <Button
-                                            variant="ghost"
-                                            className="inline-flex-group"
-                                            onClick={() => onSortable('email')}
-                                        >
-                                            Email
-                                            <span className="ml-2 flex-none rounded text-muted-foreground">
-                                                <IconArrowsDownUp className="size-4" />
-                                            </span>
-                                        </Button>
-                                    </TableHead>
-
+                                        </TableHead>
+                                        
                                     <TableHead>
                                         <Button
                                             variant="ghost"
@@ -165,9 +140,61 @@ export default function Index(props) {
                                         <Button
                                             variant="ghost"
                                             className="inline-flex-group"
-                                            onClick={() => onSortable('teacher_number')}
+                                            onClick={() => onSortable('teacher_id')}
                                         >
-                                            Nomor Induk Pegawai
+                                            Dosen
+                                            <span className="ml-2 flex-none rounded text-muted-foreground">
+                                                <IconArrowsDownUp className="size-4" />
+                                            </span>
+                                        </Button>
+                                    </TableHead>
+
+                                    <TableHead>
+                                        <Button
+                                            variant="ghost"
+                                            className="inline-flex-group"
+                                            onClick={() => onSortable('code')}
+                                        >
+                                            Kode Mata Kuliah
+                                            <span className="ml-2 flex-none rounded text-muted-foreground">
+                                                <IconArrowsDownUp className="size-4" />
+                                            </span>
+                                        </Button>
+                                    </TableHead>
+
+                                    <TableHead>
+                                        <Button
+                                            variant="ghost"
+                                            className="inline-flex-group"
+                                            onClick={() => onSortable('name')}
+                                        >
+                                            Nama Mata Kuliah
+                                            <span className="ml-2 flex-none rounded text-muted-foreground">
+                                                <IconArrowsDownUp className="size-4" />
+                                            </span>
+                                        </Button>
+                                    </TableHead>
+
+                                    <TableHead>
+                                        <Button
+                                            variant="ghost"
+                                            className="inline-flex-group"
+                                            onClick={() => onSortable('credit')}
+                                        >
+                                            Satuan Kredit Semester (SKS)
+                                            <span className="ml-2 flex-none rounded text-muted-foreground">
+                                                <IconArrowsDownUp className="size-4" />
+                                            </span>
+                                        </Button>
+                                    </TableHead>
+
+                                    <TableHead>
+                                        <Button
+                                            variant="ghost"
+                                            className="inline-flex-group"
+                                            onClick={() => onSortable('semester')}
+                                        >
+                                            Semester
                                             <span className="ml-2 flex-none rounded text-muted-foreground">
                                                 <IconArrowsDownUp className="size-4" />
                                             </span>
@@ -191,26 +218,21 @@ export default function Index(props) {
                             </TableHeader>
 
                             <TableBody>
-                                {operators.map((operator, index) => (
+                                {courses.map((course, index) => (
                                     <TableRow key={index}>
                                         <TableCell>{index + 1 + (meta.current_page - 1) * meta.per_page}</TableCell>
-                                        <TableCell className="flex items-center gap-2">
-                                            <Avatar>
-                                                <AvatarImage src={operator.user.avatar} />
-                                                <AvatarFallback>{operator.user.name.substring(0, 1)}</AvatarFallback>
-                                            </Avatar>
-
-                                            <span>{operator.user.name}</span>
-                                        </TableCell>
-                                        <TableCell>{operator.user.email}</TableCell>
-                                        <TableCell>{operator.faculty.name}</TableCell>
-                                        <TableCell>{operator.department.name}</TableCell>
-                                        <TableCell>{operator.employee_number}</TableCell>
-                                        <TableCell>{formatDateIndo(operator.created_at)}</TableCell>
+                                        <TableCell>{course.faculty.name}</TableCell>
+                                        <TableCell>{course.department.name}</TableCell>
+                                        <TableCell>{course.teacher.name}</TableCell>
+                                        <TableCell>{course.code}</TableCell>
+                                        <TableCell>{course.name}</TableCell>
+                                        <TableCell>{course.credit}</TableCell>
+                                        <TableCell>{course.semester}</TableCell>
+                                        <TableCell>{formatDateIndo(course.created_at)}</TableCell>
                                         <TableCell>
                                             <div className="flex items-center gap-x-1">
                                                 <Button variant="blue" size="sm" asChild>
-                                                    <Link href={route('admin.operators.edit', [operator])}>
+                                                    <Link href={route('admin.courses.edit', [course])}>
                                                         <IconPencil className="size-4" />
                                                     </Link>
                                                 </Button>
@@ -221,7 +243,7 @@ export default function Index(props) {
                                                         </Button>
                                                     }
                                                     action={() =>
-                                                        deleteAction(route('admin.operators.destroy', [operator]))
+                                                        deleteAction(route('admin.courses.destroy', [course]))
                                                     }
                                                 />
                                             </div>
@@ -234,8 +256,8 @@ export default function Index(props) {
                 </CardContent>
                 <CardFooter className="flex w-full flex-col items-center justify-between gap-y-2 border-t py-3 lg:flex-row">
                     <p className="text-sm text-muted-foreground">
-                        Menampilkan <span className="font-medium text-blue-600">{meta.from ?? 0}</span> dari {' '}
-                        {meta.total} operator
+                        Menampilkan <span className="font-medium text-blue-600">{meta.from ?? 0}</span> dari{' '}
+                        {meta.total} mata kuliah
                     </p>
 
                     <div className="overflow-x-auto">

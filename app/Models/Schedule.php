@@ -18,7 +18,7 @@ class Schedule extends Model
         'start_time',
         'end_time',
         'day_of_week',
-        'quote',
+        'quota',
     ];
 
     protected function casts(): array
@@ -56,5 +56,37 @@ class Schedule extends Model
     public function  studyPlans(): BelongsToMany
     {
         return $this->belongsToMany(StudyPlan::class, 'study_plan_schedule')->withTimestamps();
+    }
+
+    public function scopeFilter(Builder $query, array $filters): void
+    {
+        $query->when($filters['search'] ?? null, function ($query, $search) {
+            $query->whereAny([
+                'start_time',
+                'end_time',
+                'day_of_week',
+            ], 'REGEXP', $search)
+            ->orWhereHas('faculty', fn($query) => $query->where('name', 'REGEXP', $search))
+            ->orWhereHas('department', fn($query) => $query->where('name', 'REGEXP', $search))
+            ->orWhereHas('course', fn($query) => $query->where('name', 'REGEXP', $search))
+            ->orWhereHas('classroom', fn($query) => $query->where('name', 'REGEXP', $search));
+        });
+    }
+
+    public function scopeSorting(Builder $query, array $sorts): void
+    {
+        $query->when($sorts['field'] ?? null && $sorts['direction'] ?? null, function ($query) use ($sorts) {
+            match ($sorts['field']) {
+                'faculty_id' => $query->join('faculties', 'courses.faculty_id', '=', 'faculties.id')
+                    ->orderBy('faculties.name', $sorts['direction']),
+                'department_id' => $query->join('departments', 'courses.department_id', '=', 'departments.id')
+                    ->orderBy('departments.name', $sorts['direction']),
+                'course_id' => $query->join('courses', 'courses.course_id', '=', 'courses.id')
+                    ->orderBy('courses.name', $sorts['direction']),
+                'classroom_id' => $query->join('classrooms', 'classrooms.classroom_id', '=', 'classrooms.id')
+                    ->orderBy('classrooms.name', $sorts['direction']),
+                default => $query->orderBy($sorts['field'], $sorts['direction']),
+            };
+        });
     }
 }

@@ -38,9 +38,9 @@ class Teacher extends Model
                 'student_number',
                 'semester'
             ], 'REGEXP', $search)
-                ->whereHas('user', fn($query) => $query->whereAny(['name', 'email'], 'REGEXP', $search))
-                ->whereHas('faculty', fn($query) => $query->where('name', 'REGEXP', $search))
-                ->whereHas('department', fn($query) => $query->where('name', 'REGEXP', $search));
+                ->orWhereHas('user', fn($query) => $query->whereAny(['name', 'email'], 'REGEXP', $search))
+                ->orWhereHas('faculty', fn($query) => $query->where('name', 'REGEXP', $search))
+                ->orWhereHas('department', fn($query) => $query->where('name', 'REGEXP', $search));
         });
     }
 
