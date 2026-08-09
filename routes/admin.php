@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Admin\OperatorController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\ClassroomStudentController;
+use App\Http\Controllers\Admin\FeeController;
 use App\Http\Controllers\Admin\ScheduleController;
 use Illuminate\Support\Facades\Route;
 
@@ -123,4 +124,6 @@ Route::prefix('admin')->middleware('auth', 'role:Admin')->group(function () {
         Route::put('schedules/edit/{schedule}', 'update')->name('admin.schedules.update');
         Route::delete('schedules/destroy/{schedule}', 'destroy')->name('admin.schedules.destroy');
     });
+
+    Route::get('fees', FeeController::class)->name('admin.fees.index');
 });
