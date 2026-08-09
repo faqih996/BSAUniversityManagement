@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Enums\ScheduleDay;
+use Illuminate\Validation\Rules\Enum;
 
 class ScheduleRequest extends FormRequest
 {

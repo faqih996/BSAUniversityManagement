@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Admin\OperatorController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\ClassroomStudentController;
+use App\Http\Controllers\Admin\ScheduleController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->middleware('auth', 'role:Admin')->group(function () {

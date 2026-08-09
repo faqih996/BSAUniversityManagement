@@ -3,7 +3,7 @@ import EmptyState from '@/Components/EmptyState';
 import HeaderTitle from '@/Components/HeaderTitle';
 import PaginationTable from '@/Components/PaginationTable';
 import ShowFilter from '@/Components/ShowFilter';
-import { Avatar, AvatarImage, AvatarFallback } from '@/Components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/Components/ui/avatar';
 import { Button } from '@/Components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/Components/ui/card';
 import { Input } from '@/Components/ui/input';
@@ -110,7 +110,7 @@ export default function Index(props) {
                                         </Button>
                                     </TableHead>
                                     <TableHead>
-                                        <Button 
+                                        <Button
                                             variant="ghost"
                                             className="inline-flex-group"
                                             onClick={() => onSortable('name')}

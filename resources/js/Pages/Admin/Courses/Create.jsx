@@ -8,8 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import AppLayout from '@/Layouts/AppLayout';
 import { flashMessage } from '@/lib/utils';
 import { Link, useForm } from '@inertiajs/react';
-import { IconArrowLeft, IconBook, IconCheck, IconUsers, IconUsersGroup } from '@tabler/icons-react';
-import { useRef } from 'react';
+import { IconArrowLeft, IconBook, IconCheck } from '@tabler/icons-react';
 import { toast } from 'sonner';
 
 export default function Create(props) {
@@ -112,7 +111,7 @@ export default function Create(props) {
 
                                 {errors.department_id && <InputError message={errors.department_id} />}
                             </div>
-                            
+
                             <div className="col-span-full">
                                 <Label htmlFor="name">Nama Mata Kuliah</Label>
                                 <Input
@@ -134,9 +133,8 @@ export default function Create(props) {
                                 >
                                     <SelectTrigger>
                                         <SelectValue>
-                                            {props.teachers.find(
-                                                (teacher) => teacher.value == data.teacher_id,
-                                            )?.label ?? 'Pilih dosen'}
+                                            {props.teachers.find((teacher) => teacher.value == data.teacher_id)
+                                                ?.label ?? 'Pilih dosen'}
                                         </SelectValue>
                                     </SelectTrigger>
 

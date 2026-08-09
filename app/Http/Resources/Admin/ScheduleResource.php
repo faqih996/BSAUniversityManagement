@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Admin;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,8 +17,8 @@ class ScheduleResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'start_time' => Carbon::parse($time->start_time)->format('H:i'),
-            'end_time' => Carbon::parse($time->end_time)->format('H:i'),
+            'start_time' => Carbon::parse($this->start_time)->format('H:i'),
+            'end_time' => Carbon::parse($this->end_time)->format('H:i'),
             'day_of_week' => $this->day_of_week,
             'quota' => $this->quota,
             'created_at' => $this->created_at,

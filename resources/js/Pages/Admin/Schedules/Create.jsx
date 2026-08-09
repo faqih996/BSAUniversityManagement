@@ -8,21 +8,19 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import AppLayout from '@/Layouts/AppLayout';
 import { flashMessage } from '@/lib/utils';
 import { Link, useForm } from '@inertiajs/react';
-import { IconArrowLeft, IconCheck, IconUsersGroup } from '@tabler/icons-react';
-import { useRef } from 'react';
+import { IconArrowLeft, IconCalendar, IconCheck } from '@tabler/icons-react';
 import { toast } from 'sonner';
 
 export default function Create(props) {
-    const fileInputAvatar = useRef(null);
     const { data, setData, post, processing, errors, reset } = useForm({
         faculty_id: null,
         department_id: null,
-        name: '',
-        email: '',
-        password: '',
-        avatar: null,
-        teacher_number: '',
-        academic_title: '',
+        course_id: null,
+        classroom_id: null,
+        start_time: '',
+        end_time: '',
+        day_of_week: null,
+        quota: 0,
         _method: props.page_settings.method,
     });
 
@@ -42,7 +40,6 @@ export default function Create(props) {
 
     const onHandleReset = () => {
         reset();
-        fileInputAvatar.current.value = null;
     };
 
     return (
@@ -51,11 +48,11 @@ export default function Create(props) {
                 <HeaderTitle
                     title={props.page_settings.title}
                     subtitle={props.page_settings.subtitle}
-                    icon={IconUsersGroup}
+                    icon={IconCalendar}
                 />
 
                 <Button variant="orange" size="xl" className="w-full lg:w-auto" asChild>
-                    <Link href={route('admin.teachers.index')}>
+                    <Link href={route('admin.schedules.index')}>
                         <IconArrowLeft className="size-4" />
                         Kembali
                     </Link>
@@ -66,45 +63,6 @@ export default function Create(props) {
                 <CardContent className="p-6">
                     <form onSubmit={onHandleSubmit}>
                         <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
-                            <div className="col-span-full">
-                                <Label htmlFor="name">Nama</Label>
-                                <Input
-                                    type="text"
-                                    name="name"
-                                    id="name"
-                                    value={data.name}
-                                    onChange={onHandleChange}
-                                    placeholder="Masukan nama dosen"
-                                />
-                                {errors.name && <InputError message={errors.name} />}
-                            </div>
-
-                            <div className="col-span-2">
-                                <Label htmlFor="email">Email</Label>
-                                <Input
-                                    type="text"
-                                    name="email"
-                                    id="email"
-                                    value={data.email}
-                                    onChange={onHandleChange}
-                                    placeholder="Masukan email"
-                                />
-                                {errors.email && <InputError message={errors.email} />}
-                            </div>
-
-                            <div className="col-span-2">
-                                <Label htmlFor="password">Password</Label>
-                                <Input
-                                    type="password"
-                                    name="password"
-                                    id="password"
-                                    value={data.password}
-                                    onChange={onHandleChange}
-                                    placeholder="*************"
-                                />
-                                {errors.password && <InputError message={errors.password} />}
-                            </div>
-
                             <div className="col-span-full">
                                 <Label htmlFor="faculty_id">Fakultas</Label>
                                 <Select
@@ -156,43 +114,118 @@ export default function Create(props) {
                                 {errors.department_id && <InputError message={errors.department_id} />}
                             </div>
 
-                            <div className="col-span-2">
-                                <Label htmlFor="teacher_number">Nomor Induk Dosen</Label>
-                                <Input
-                                    type="text"
-                                    name="teacher_number"
-                                    id="teacher_number"
-                                    value={data.teacher_number}
-                                    onChange={onHandleChange}
-                                    placeholder="Masukan nomor induk dosen"
-                                />
-                                {errors.teacher_number && <InputError message={errors.teacher_number} />}
+                            <div className="col-span-full">
+                                <Label htmlFor="course_id">Mata Kuliah</Label>
+                                <Select
+                                    defaultValue={data.course_id}
+                                    onValueChange={(value) => setData('course_id', value)}
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue>
+                                            {props.courses.find((course) => course.value == data.course_id)?.label ??
+                                                'Pilih mata kuliah'}
+                                        </SelectValue>
+                                    </SelectTrigger>
+
+                                    <SelectContent>
+                                        {props.courses.map((course, index) => (
+                                            <SelectItem key={index} value={course.value}>
+                                                {course.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+
+                                {errors.course_id && <InputError message={errors.course_id} />}
+                            </div>
+
+                            <div className="col-span-full">
+                                <Label htmlFor="classroom_id">Kelas</Label>
+                                <Select
+                                    defaultValue={data.classroom_id}
+                                    onValueChange={(value) => setData('classroom_id', value)}
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue>
+                                            {props.classrooms.find((clasrroom) => clasrroom.value == data.classroom_id)
+                                                ?.label ?? 'Pilih kelas'}
+                                        </SelectValue>
+                                    </SelectTrigger>
+
+                                    <SelectContent>
+                                        {props.classrooms.map((clasrroom, index) => (
+                                            <SelectItem key={index} value={clasrroom.value}>
+                                                {clasrroom.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+
+                                {errors.classroom_id && <InputError message={errors.classroom_id} />}
+                            </div>
+
+                            <div className="col-span-full">
+                                <Label htmlFor="day_of_week">Hari</Label>
+                                <Select
+                                    defaultValue={data.day_of_week}
+                                    onValueChange={(value) => setData('day_of_week', value)}
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue>
+                                            {props.days.find((day) => day.value == data.day_of_week)?.label ??
+                                                'Pilih kelas'}
+                                        </SelectValue>
+                                    </SelectTrigger>
+
+                                    <SelectContent>
+                                        {props.days.map((day, index) => (
+                                            <SelectItem key={index} value={day.value}>
+                                                {day.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+
+                                {errors.day_of_week && <InputError message={errors.day_of_week} />}
                             </div>
 
                             <div className="col-span-2">
-                                <Label htmlFor="academic_title">Jabatan Akademik</Label>
+                                <Label htmlFor="start_time">Waktu Mulai</Label>
                                 <Input
-                                    type="text"
-                                    name="academic_title"
-                                    id="academic_title"
-                                    value={data.academic_title}
+                                    type="time"
+                                    name="start_time"
+                                    id="start_time"
+                                    value={data.start_time}
                                     onChange={onHandleChange}
-                                    placeholder="Masukan Jabatan Akademik"
+                                    placeholder="Masukan Waktu Mulai"
                                 />
-                                {errors.academic_title && <InputError message={errors.academic_title} />}
+                                {errors.start_time && <InputError message={errors.start_time} />}
                             </div>
 
                             <div className="col-span-2">
-                                <Label htmlFor="avatar">Avatar</Label>
+                                <Label htmlFor="end_time">Waktu Berakhir</Label>
                                 <Input
-                                    type="file"
-                                    name="avatar"
-                                    id="avatar"
-                                    value={data.avatar}
-                                    onChange={(e) => setData(e.target.name, e.target.files[0])}
-                                    ref={fileInputAvatar}
+                                    type="time"
+                                    name="end_time"
+                                    id="end_time"
+                                    value={data.end_time}
+                                    onChange={onHandleChange}
+                                    placeholder="Masukan Waktu Berakhir"
                                 />
-                                {errors.avatar && <InputError message={errors.avatar} />}
+                                {errors.end_time && <InputError message={errors.end_time} />}
+                            </div>
+
+                            <div className="col-span-full">
+                                <Label htmlFor="quota">Kuota</Label>
+                                <Input
+                                    type="number"
+                                    name="quota"
+                                    id="quota"
+                                    value={data.quota}
+                                    onChange={onHandleChange}
+                                    placeholder="Masukan quota"
+                                />
+                                {errors.quota && <InputError message={errors.quota} />}
                             </div>
                         </div>
 
