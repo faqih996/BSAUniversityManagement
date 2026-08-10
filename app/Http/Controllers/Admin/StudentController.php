@@ -77,7 +77,7 @@ class StudentController extends Controller
             ]),
             'feeGroups' => FeeGroup::query()->select(['id', 'group', 'amount'])->orderBy('group')->get()->map(fn($item) => [
                 'value' => $item->id,
-                'label' => 'Golongan ' . $item->group . ' - ' . number_format($item->amount, 0, ',', '.'),
+                'label' => 'Golongan ' . $item->group . ' - ' . 'Rp ' . number_format($item->amount, 0, ',', '.'),
             ]),
             'classrooms' => Classroom::query()->select(['id', 'name'])->orderBy('name')->get()->map(fn($item) => [
                 'value' => $item->id,

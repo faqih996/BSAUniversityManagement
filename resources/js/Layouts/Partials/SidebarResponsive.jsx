@@ -24,7 +24,7 @@ export default function SidebarResponsive({ auth, url }) {
                 {auth.roles.some((role) => ['Admin'].includes(role)) && (
                     <>
                         <NavLink
-                            url="#"
+                            url={route('admin.dashboard')}
                             active={url.startsWith('/admin/dashboard')}
                             title="Dashboard"
                             icon={IconLayout2}
@@ -147,7 +147,7 @@ export default function SidebarResponsive({ auth, url }) {
                 {auth.roles.some((role) => ['Operator'].includes(role)) && (
                     <>
                         <NavLink
-                            url="#"
+                            url={route('operators.dashboard')}
                             active={url.startsWith('/operators/dashboard')}
                             title="Dashboard"
                             icon={IconLayout2}
@@ -156,7 +156,7 @@ export default function SidebarResponsive({ auth, url }) {
                         <div className="px-3 py-2 text-xs font-medium text-white">Pengguna</div>
 
                         <NavLink
-                            url="#"
+                            url={route('operators.students.index')}
                             active={url.startsWith('/operators/students')}
                             title="Mahasiswa"
                             icon={IconUsers}
