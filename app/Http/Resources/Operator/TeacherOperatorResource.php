@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Operator;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 
-class TeacherResource extends JsonResource
+class TeacherOperatorResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -25,14 +25,6 @@ class TeacherResource extends JsonResource
                 'name' => $this->user?->name,
                 'email' => $this->user?->email,
                 'avatar' => $this->user?->avatar ? Storage::url($this->user->avatar) : null,
-            ]),
-            'faculty' => $this->whenLoaded('faculty', [
-                'id' => $this->faculty?->id,
-                'name' => $this->faculty?->name,
-            ]),
-            'department' => $this->whenLoaded('department', [
-                'id' => $this->department?->id,
-                'name' => $this->department?->name,
             ]),
         ];
     }

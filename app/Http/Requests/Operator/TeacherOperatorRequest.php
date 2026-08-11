@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace App\Http\Requests\Operator;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class TeacherRequest extends FormRequest
+class TeacherOperatorRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return auth()->check() && auth()->user()->hasRole('Admin');
+        return auth()->check() && auth()->user()->hasRole('Operator');
     }
 
     /**
@@ -26,15 +26,13 @@ class TeacherRequest extends FormRequest
             'name' => ['required', 'string', 'min:3', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($this->teacher?->user_id)],
             'password' => Rule::when(
-                $this->routeIs('admin.teachers.store'),
+                $this->routeIs('operators.teachers.store'),
                 ['required', 'string', 'min:8', 'max:255']
             ),
             Rule::when(
-                $this->routeIs('admin.teachers.update'),
+                $this->routeIs('operators.teachers.update'),
                 ['nullable', 'string', 'min:8', 'max:255']
             ),
-            'faculty_id' => ['required', 'exists:faculties,id'],
-            'department_id' => ['required', 'exists:departments,id'],
             'teacher_number' => ['required', 'string', 'max:10'],
             'academic_title' => ['required', 'string', 'min:3', 'max:255'],
             'avatar' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],

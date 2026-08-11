@@ -26,11 +26,11 @@ class StudentOperatorRequest extends FormRequest
             'name' => ['required', 'string', 'min:3', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($this->student?->user_id)],
             'password' => Rule::when(
-                $this->routeIs('admin.students.store'),
+                $this->routeIs('operators.students.store'),
                 ['required', 'string', 'min:8', 'max:255']
             ),
             Rule::when(
-                $this->routeIs('admin.students.update'),
+                $this->routeIs('operators.students.update'),
                 ['nullable', 'string', 'min:8', 'max:255']
             ),
             'student_number' => ['required',  'string', 'max:13',],
