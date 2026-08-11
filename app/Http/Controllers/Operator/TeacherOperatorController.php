@@ -153,14 +153,14 @@ class TeacherOperatorController extends Controller
             $this->delete_file($teacher->user, 'avatar');
             $teacher->delete();
 
-            flashMessage(MessageType::DELETED->message('Mahasiswa'));
+            flashMessage(MessageType::DELETED->message('Dosen'));
 
             return to_route('operators.teachers.index');
         } catch (Throwable $e) {
 
             flashMessage(MessageType::ERROR->message(error: $e->getMessage()), 'error');
 
-            return to_route('admin.teachers.index');
+            return to_route('operators.teachers.index');
         }
     }
 }

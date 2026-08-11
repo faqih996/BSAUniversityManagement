@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace App\Http\Requests\Operator;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ClassroomRequest extends FormRequest
+class ClassroomOperatorRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return auth()->user() && auth()->user()->hasRole('Admin');
+        return auth()->check() && auth()->user()->hasRole('Operator');
     }
 
     /**
@@ -19,17 +19,10 @@ class ClassroomRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
+
     public function rules(): array
     {
         return [
-            'faculty_id' => [
-                'required',
-                'exists:faculties,id',
-            ],
-            'department_id' => [
-                'required',
-                'exists:departments,id',
-            ],
             'academic_year_id' => [
                 'required',
                 'exists:academic_years,name',
@@ -46,8 +39,6 @@ class ClassroomRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'faculty_id' => 'Fakultas',
-            'department_id' => 'Program Studi',
             'academic_year_id' => 'Tahun AkademikTahun Ajaran',
             'name' => 'Nama',
         ];

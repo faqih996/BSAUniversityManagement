@@ -3,6 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/Components/ui/avatar';
 import { Link } from '@inertiajs/react';
 import {
     IconBook,
+    IconBooks,
     IconBuildingSkyscraper,
     IconCalendar,
     IconCalendarTime,
@@ -193,7 +194,7 @@ export default function Sidebar({ auth, url }) {
                         <div className="px-3 py-2 text-xs font-medium text-white">Akademik</div>
 
                         <NavLink
-                            url="#"
+                            url={route('operators.classrooms.index')}
                             active={url.startsWith('/operators/classrooms')}
                             title="Kelas"
                             icon={IconDoor}
@@ -202,7 +203,7 @@ export default function Sidebar({ auth, url }) {
                             url="#"
                             active={url.startsWith('/operators/courses')}
                             title="Mata Kuliah"
-                            icon={IconDoor}
+                            icon={IconBooks}
                         />
                         <NavLink
                             url="#"
