@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources\Operator;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 
-class CourseResource extends JsonResource
+class CourseOperatorResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -22,14 +22,6 @@ class CourseResource extends JsonResource
             'credit' => $this->credit,
             'semester' => $this->semester,
             'created_at' => $this->created_at,
-            'faculty' => $this->whenLoaded('faculty', [
-                'id' => $this->faculty?->id,
-                'name' => $this->faculty?->name,
-            ]),
-            'department' => $this->whenLoaded('department', [
-                'id' => $this->department?->id,
-                'name' => $this->department?->name,
-            ]),
             'teacher' => $this->whenLoaded('teacher', [
                 'id' => $this->teacher?->id,
                 'name' => $this->teacher?->user?->name,

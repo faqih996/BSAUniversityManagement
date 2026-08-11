@@ -23,10 +23,13 @@ class ClassroomOperatorController extends Controller
             ->with(['academicYear'])
             ->paginate(request()->load ?? 10);
 
+        $faculty_name = auth()->user()->operator->faculty?->name;
+        $department_name = auth()->user()->operator->department?->name;
+
         return inertia('Operators/Classrooms/Index', [
             'page_settings' => [
                 'title' => 'Kelas',
-                'subtitle' => 'Menampilkan semua data kelas yang tersedia pada universitas ini'
+                'subtitle' => "Menampilkan semua data kelas yang tersedia di {$faculty_name} dan Program Studi {$department_name}",
             ],
 
             'classrooms' => ClassroomOperatorResource::collection($classrooms)->additional([

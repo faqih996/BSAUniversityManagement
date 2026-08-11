@@ -4,22 +4,19 @@ import { Button } from '@/Components/ui/button';
 import { Card, CardContent } from '@/Components/ui/card';
 import { Input } from '@/Components/ui/input';
 import { Label } from '@/Components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/Components/ui/select';
 import AppLayout from '@/Layouts/AppLayout';
 import { flashMessage } from '@/lib/utils';
 import { Link, useForm } from '@inertiajs/react';
-import { IconArrowLeft, IconCheck, IconUsersGroup } from '@tabler/icons-react';
-import { useRef } from 'react';
+import { IconArrowLeft, IconBook, IconCheck } from '@tabler/icons-react';
 import { toast } from 'sonner';
 
 export default function Create(props) {
-    const fileInputAvatar = useRef(null);
     const { data, setData, post, processing, errors, reset } = useForm({
+        teacher_id: null,
         name: '',
-        email: '',
-        password: '',
-        avatar: null,
-        teacher_number: '',
-        academic_title: '',
+        credit: 1,
+        semester: 1,
         _method: props.page_settings.method,
     });
 
@@ -39,7 +36,6 @@ export default function Create(props) {
 
     const onHandleReset = () => {
         reset();
-        fileInputAvatar.current.value = null;
     };
 
     return (
@@ -48,11 +44,11 @@ export default function Create(props) {
                 <HeaderTitle
                     title={props.page_settings.title}
                     subtitle={props.page_settings.subtitle}
-                    icon={IconUsersGroup}
+                    icon={IconBook}
                 />
 
                 <Button variant="orange" size="xl" className="w-full lg:w-auto" asChild>
-                    <Link href={route('admin.teachers.index')}>
+                    <Link href={route('operators.courses.index')}>
                         <IconArrowLeft className="size-4" />
                         Kembali
                     </Link>
@@ -64,81 +60,67 @@ export default function Create(props) {
                     <form onSubmit={onHandleSubmit}>
                         <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
                             <div className="col-span-full">
-                                <Label htmlFor="name">Nama</Label>
+                                <Label htmlFor="name">Nama Mata Kuliah</Label>
                                 <Input
                                     type="text"
                                     name="name"
                                     id="name"
                                     value={data.name}
                                     onChange={onHandleChange}
-                                    placeholder="Masukan nama dosen"
+                                    placeholder="Masukan nama mata kuliah"
                                 />
                                 {errors.name && <InputError message={errors.name} />}
                             </div>
 
-                            <div className="col-span-2">
-                                <Label htmlFor="email">Email</Label>
-                                <Input
-                                    type="text"
-                                    name="email"
-                                    id="email"
-                                    value={data.email}
-                                    onChange={onHandleChange}
-                                    placeholder="Masukan email"
-                                />
-                                {errors.email && <InputError message={errors.email} />}
+                            <div className="col-span-full">
+                                <Label htmlFor="teacher_id">Dosen</Label>
+                                <Select
+                                    defaultValue={data.teacher_id}
+                                    onValueChange={(value) => setData('teacher_id', value)}
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue>
+                                            {props.teachers.find((teacher) => teacher.value == data.teacher_id)
+                                                ?.label ?? 'Pilih dosen'}
+                                        </SelectValue>
+                                    </SelectTrigger>
+
+                                    <SelectContent>
+                                        {props.teachers.map((teacher, index) => (
+                                            <SelectItem key={index} value={teacher.value}>
+                                                {teacher.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+
+                                {errors.teacher_id && <InputError message={errors.teacher_id} />}
                             </div>
 
                             <div className="col-span-2">
-                                <Label htmlFor="password">Password</Label>
+                                <Label htmlFor="credit">Satuan Kredit Semester</Label>
                                 <Input
-                                    type="password"
-                                    name="password"
-                                    id="password"
-                                    value={data.password}
+                                    type="number"
+                                    name="credit"
+                                    id="credit"
+                                    value={data.credit}
                                     onChange={onHandleChange}
-                                    placeholder="*************"
+                                    placeholder="Masukan satuan kredit semester"
                                 />
-                                {errors.password && <InputError message={errors.password} />}
+                                {errors.credit && <InputError message={errors.credit} />}
                             </div>
 
                             <div className="col-span-2">
-                                <Label htmlFor="teacher_number">Nomor Induk Dosen</Label>
+                                <Label htmlFor="semester">Semester</Label>
                                 <Input
-                                    type="text"
-                                    name="teacher_number"
-                                    id="teacher_number"
-                                    value={data.teacher_number}
+                                    type="number"
+                                    name="semester"
+                                    id="semester"
+                                    value={data.semester}
                                     onChange={onHandleChange}
-                                    placeholder="Masukan nomor induk dosen"
+                                    placeholder="Masukan semester"
                                 />
-                                {errors.teacher_number && <InputError message={errors.teacher_number} />}
-                            </div>
-
-                            <div className="col-span-2">
-                                <Label htmlFor="academic_title">Jabatan Akademik</Label>
-                                <Input
-                                    type="text"
-                                    name="academic_title"
-                                    id="academic_title"
-                                    value={data.academic_title}
-                                    onChange={onHandleChange}
-                                    placeholder="Masukan Jabatan Akademik"
-                                />
-                                {errors.academic_title && <InputError message={errors.academic_title} />}
-                            </div>
-
-                            <div className="col-span-2">
-                                <Label htmlFor="avatar">Avatar</Label>
-                                <Input
-                                    type="file"
-                                    name="avatar"
-                                    id="avatar"
-                                    value={data.avatar}
-                                    onChange={(e) => setData(e.target.name, e.target.files[0])}
-                                    ref={fileInputAvatar}
-                                />
-                                {errors.avatar && <InputError message={errors.avatar} />}
+                                {errors.semester && <InputError message={errors.semester} />}
                             </div>
                         </div>
 
