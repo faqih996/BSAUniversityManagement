@@ -76,7 +76,7 @@ export default function HeaderStudentLayout({ auth, url }) {
                                                 />
 
                                                 <NavigationMenu
-                                                    url="#"
+                                                    url={route('students.fees.index')}
                                                     active={url === '/students/fees'}
                                                     title="Pembayaran"
                                                 />
@@ -207,7 +207,7 @@ export default function HeaderStudentLayout({ auth, url }) {
 
                                 <Disclosure.Button
                                     as="a"
-                                    href="#"
+                                    href={route('students.fees.index')}
                                     className={cn(
                                         url.startsWith('/students/fees')
                                             ? 'bg-blue-500 text-white'
