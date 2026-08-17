@@ -2,19 +2,22 @@ import EmptyState from '@/Components/EmptyState';
 import HeaderTitle from '@/Components/HeaderTitle';
 import PaginationTable from '@/Components/PaginationTable';
 import ShowFilter from '@/Components/ShowFilter';
+import { Alert, AlertDescription, AlertTitle } from '@/Components/ui/alert';
 import { Badge } from '@/Components/ui/badge';
 import { Button } from '@/Components/ui/button';
+import { Card, CardContent } from '@/Components/ui/card';
 import { Input } from '@/Components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/Components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
 import useFilter from '@/hooks/UseFilter';
 import StudentLayout from '@/Layouts/StudentLayout';
-import { FEESTATUSVARIANT, formatDateIndo, STUDYPLANSTATUSVARIANT } from '@/lib/utils';
-import { Link } from '@inertiajs/react';
+import { FEESTATUSVARIANT, formatDateIndo, formatToRupiah, STUDYPLANSTATUSVARIANT } from '@/lib/utils';
+import { Link, usePage } from '@inertiajs/react';
 import { IconArrowsDownUp, IconBuilding, IconEye, IconMoneybag, IconPlus, IconRefresh } from '@tabler/icons-react';
 import { useState } from 'react';
 
 export default function Index(props) {
+    const auth = usePage().props.auth.user
     const { data: fees, meta, links } = props.fees;
 
     const [params, setParams] = useState(props.state);
@@ -45,6 +48,62 @@ export default function Index(props) {
 
             <div className="flex flex-col gap-y-8">
                 {/* Pembayaran */}
+                {!props.checkFee && (
+                    <div>
+                        <Alert variant='orange'>
+                            <AlertTitle>
+                                Periode pembayaran UKT Tahun ajaran {props.academic_year.name}
+                            </AlertTitle>
+
+                            <AlertDescription>
+                                Silahkan untuk melakukan pembayaran ukt terlebih dahulu agar anda dapat mengajukan kartu rencana studi
+                            </AlertDescription>
+                        </Alert>
+                    </div>
+                )}
+
+                {(props.fee && props.fee.status != 'Sukses') || !props.fee && (
+                    <Card>
+                        <CardContent className='p-6 space-y-20'>
+                            <div>
+                                <Table className='w-full'>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>Nama</TableHead>
+                                            <TableHead>Nomor Pokok Mahasiswa</TableHead>
+                                            <TableHead>Semester</TableHead>
+                                            <TableHead>Kelas</TableHead>
+                                            <TableHead>Fakultas</TableHead>
+                                            <TableHead>Program Studi</TableHead>
+                                            <TableHead>Golongan</TableHead>
+                                            <TableHead>Total Tagihan</TableHead>
+                                            <TableHead>Aksi</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+
+                                    <TableBody>
+                                        <TableRow>
+                                            <TableCell>{ auth.name }</TableCell>
+                                            <TableCell>{ auth.student.student_number }</TableCell>
+                                            <TableCell>{ auth.student.semester }</TableCell>
+                                            <TableCell>{ auth.student.classroom.name }</TableCell>
+                                            <TableCell>{ auth.student.faculty.name }</TableCell>
+                                            <TableCell>{ auth.student.department.name }</TableCell>
+                                            <TableCell>{ auth.student.feeGroup.group }</TableCell>
+                                            <TableCell>{formatToRupiah(auth.student.feeGroup.amount)}</TableCell>
+                                            <TableCell>
+                                                <Button variant='orange'>
+                                                    Bayar
+                                                </Button>
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
+                            </div>
+                        </CardContent>
+                    </Card>
+                )}
+
                 {/* Filters */}
                 <div className="flex w-full flex-col gap-4 lg:flex-row lg:items-center">
                     <Input
