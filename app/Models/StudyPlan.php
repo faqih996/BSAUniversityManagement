@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Enums\StudyPlanStatus;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Builder;
 
 class StudyPlan extends Model
 {
@@ -37,5 +38,10 @@ class StudyPlan extends Model
     public function schedules(): BelongsToMany
     {
         return $this->belongsToMany(Schedule::class, 'study_plan_schedule')->withTimestamps();
+    }
+
+    public function scopeApproved(Builder $query)
+    {
+        $query->where('status', StudyPlanStatus::APPROVED->value);
     }
 }

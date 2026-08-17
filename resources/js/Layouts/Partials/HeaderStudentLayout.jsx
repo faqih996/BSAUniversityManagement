@@ -58,7 +58,7 @@ export default function HeaderStudentLayout({ auth, url }) {
                                                 />
 
                                                 <NavigationMenu
-                                                    url="#"
+                                                    url={route('students.schedules.index')}
                                                     active={url === '/students/schedules'}
                                                     title="Jadwal Kuliah"
                                                 />
@@ -168,7 +168,7 @@ export default function HeaderStudentLayout({ auth, url }) {
 
                                 <Disclosure.Button
                                     as="a"
-                                    href="#"
+                                    href={route('students.schedules.index')}
                                     className={cn(
                                         url.startsWith('/students/schedules')
                                             ? 'bg-blue-500 text-white'

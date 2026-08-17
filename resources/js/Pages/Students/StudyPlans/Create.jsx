@@ -1,19 +1,18 @@
-import HeaderTitle from "@/Components/HeaderTitle";
-import { Button } from "@/Components/ui/button";
-import { Checkbox } from "@/Components/ui/checkbox";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/Components/ui/table";
-import StudentLayout from "@/Layouts/StudentLayout";
-import { cn, flashMessage } from "@/lib/utils";
-import { Link, useForm } from "@inertiajs/react";
-import { IconArrowBack, IconBuilding, IconCheck, } from "@tabler/icons-react";
-import { toast } from "sonner";
+import HeaderTitle from '@/Components/HeaderTitle';
+import { Button } from '@/Components/ui/button';
+import { Checkbox } from '@/Components/ui/checkbox';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
+import StudentLayout from '@/Layouts/StudentLayout';
+import { cn, flashMessage } from '@/lib/utils';
+import { Link, useForm } from '@inertiajs/react';
+import { IconArrowBack, IconBuilding, IconCheck } from '@tabler/icons-react';
+import { toast } from 'sonner';
 
 export default function Create(props) {
-
     const { data, setData, post, processing, errors, reset } = useForm({
-            schedule_id: [],
-            _method: props.page_settings.method,
-        });
+        schedule_id: [],
+        _method: props.page_settings.method,
+    });
 
     const onHandleSubmit = (e) => {
         e.preventDefault();
@@ -28,7 +27,7 @@ export default function Create(props) {
     };
 
     const onHandleReset = () => {
-        reset()
+        reset();
     };
 
     return (
@@ -63,18 +62,19 @@ export default function Create(props) {
 
                     <TableBody>
                         {props.schedules.map((schedule, index) => (
-                            <TableRow key={index} className={cn(
-                                schedule.taken_quota == schedule.quota && 'text-red-500'
-                            )}>
+                            <TableRow
+                                key={index}
+                                className={cn(schedule.taken_quota == schedule.quota && 'text-red-500')}
+                            >
                                 <TableCell>
                                     <Checkbox
                                         id={`schedule_id_${schedule.id}`}
-                                        name='schedule_id'
+                                        name="schedule_id"
                                         checked={data.schedule_id.includes(schedule.id)}
                                         disabled={schedule.taken_quota == schedule.quota}
                                         onCheckedChange={(checked) => {
                                             if (checked) {
-                                            setData('schedule_id', [...data.schedule_id, schedule.id])
+                                                setData('schedule_id', [...data.schedule_id, schedule.id]);
                                             } else {
                                                 setData(
                                                     'schedule.id',
@@ -82,28 +82,28 @@ export default function Create(props) {
                                                 );
                                             }
                                         }}
-                                    >
-                                    </Checkbox>
+                                    ></Checkbox>
                                 </TableCell>
 
                                 <TableCell>{schedule.course.name}</TableCell>
                                 <TableCell>{schedule.classroom.name}</TableCell>
                                 <TableCell>{schedule.day_of_week}</TableCell>
-                                <TableCell>{schedule.start_time} - {schedule.end_time}</TableCell>
-                                <TableCell className={
-                                    cn(schedule.taken_quota === schedule.quota
-                                        ? 'text-red-500'
-                                        : 'text-green-500'
-                                    )}>
+                                <TableCell>
+                                    {schedule.start_time} - {schedule.end_time}
+                                </TableCell>
+                                <TableCell
+                                    className={cn(
+                                        schedule.taken_quota === schedule.quota ? 'text-red-500' : 'text-green-500',
+                                    )}
+                                >
                                     {schedule.taken_quota} / {schedule.quota}
                                 </TableCell>
                             </TableRow>
                         ))}
-
                     </TableBody>
                 </Table>
 
-                <div className="flex flex-col gap-2 mt-8 lg:flex-row lg:justify-end">
+                <div className="mt-8 flex flex-col gap-2 lg:flex-row lg:justify-end">
                     <Button type="button" variant="ghost" size="xl" onClick={onHandleReset}>
                         Reset
                     </Button>
@@ -115,7 +115,7 @@ export default function Create(props) {
                 </div>
             </form>
         </div>
-    )
+    );
 }
 
 Create.layout = (page) => <StudentLayout title={page.props.page_settings.title} children={page} />;
