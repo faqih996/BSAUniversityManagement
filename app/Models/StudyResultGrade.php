@@ -10,7 +10,7 @@ class StudyResultGrade extends Model
     protected $fillable = [
         'study_result_id',
         'course_id',
-        'letter_id',
+        'letter',
         'weight_of_value',
         'grade'
     ];
